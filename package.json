@@ -1,15 +1,24 @@
 {
-  "name": "learn-starter",
-  "version": "0.1.0",
+  "name": "mike-pezz-io",
+  "version": "0.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "dependencies": {
-    "next": "9.5.3",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
-  }
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "turbo": "latest"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.5.5"
 }
