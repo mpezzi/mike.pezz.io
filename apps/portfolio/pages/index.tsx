@@ -1,9 +1,9 @@
 import { Button } from "ui";
 
-export default function portfolio() {
+export default function Portfolio() {
   return (
     <div>
-      <h1>portfolio</h1>
+      <h1>Portfolio</h1>
       <Button />
     </div>
   );
