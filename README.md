@@ -8,9 +8,9 @@ This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It inclu
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org) app
+- `portfolio`: a [Next.js](https://nextjs.org) app
 - `web`: another [Next.js](https://nextjs.org) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
+- `ui`: a stub React component library shared by both `web` and `portfolio` applications
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
@@ -48,7 +48,7 @@ npm run dev
 
 ### Remote Caching
 
-Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo.org/portfolio/features/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
 By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
@@ -57,7 +57,7 @@ cd my-turborepo
 npx turbo login
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/portfolio/concepts/personal-accounts/overview).
 
 Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
 
@@ -69,9 +69,9 @@ npx turbo link
 
 Learn more about the power of Turborepo:
 
-- [Pipelines](https://turborepo.org/docs/features/pipelines)
-- [Caching](https://turborepo.org/docs/features/caching)
-- [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching)
-- [Scoped Tasks](https://turborepo.org/docs/features/scopes)
-- [Configuration Options](https://turborepo.org/docs/reference/configuration)
-- [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)
+- [Pipelines](https://turborepo.org/portfolio/features/pipelines)
+- [Caching](https://turborepo.org/portfolio/features/caching)
+- [Remote Caching (Beta)](https://turborepo.org/portfolio/features/remote-caching)
+- [Scoped Tasks](https://turborepo.org/portfolio/features/scopes)
+- [Configuration Options](https://turborepo.org/portfolio/reference/configuration)
+- [CLI Usage](https://turborepo.org/portfolio/reference/command-line-reference)
