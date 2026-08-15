@@ -1,0 +1,29 @@
+---
+title: "a shell you can unit test"
+date: 2026-08-14
+tags: [typescript, testing, architecture]
+summary: "Keeping the simulated shell pure: commands as functions from (args, vfs, env) to data."
+---
+
+The command prompt on this site is not a gimmick bolted onto React — it
+is a pure TypeScript core with zero DOM imports. Every command is a
+function:
+
+```ts
+run(args: string[], vfs: Vfs, env: ShellEnv): CommandResult
+```
+
+A `CommandResult` is data: output blocks, an environment patch, and a
+list of effects like `{ type: "navigate", to: "/blog" }`. React
+interprets the effects; the core never touches the router.
+
+## why bother
+
+- Every command is trivially unit-testable against a fixture filesystem.
+- Tab completion and `man` pages come from the same command metadata.
+- The DOM renderer and the WebGL renderer consume identical output.
+
+The virtual filesystem maps content to paths — `~/blog/*.md` are real
+MDX files in the repo — and `cd` is just a navigation effect, which
+means the browser URL is the single source of truth for the working
+directory. Deep-linking and the back button behave exactly like `cd`.

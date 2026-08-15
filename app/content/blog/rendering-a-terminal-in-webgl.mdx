@@ -1,0 +1,30 @@
+---
+title: "rendering a terminal in WebGL"
+date: 2026-08-10
+tags: [webgl, graphics, react]
+summary: "Notes on drawing a character grid to a texture and post-processing it like a CRT."
+---
+
+The trick to a convincing CRT effect is that you cannot shader-warp the
+DOM. To bend text around a glass tube you need the text *as pixels*, so
+this site renders everything into a character-cell buffer first.
+
+## the pipeline
+
+1. React builds a screen model — plain data, no JSX in the engine.
+2. A layout pass writes the model into a typed-array cell grid.
+3. A 2D canvas draws dirty cells from a glyph atlas.
+4. The canvas is uploaded as a WebGL texture (dirty rows only).
+5. A composite shader applies curvature, chromatic aberration,
+   scanlines, bloom, noise, vignette, and flicker.
+
+Bloom needs its own blur passes at quarter resolution; everything else
+fits in one fragment shader, each effect gated by a uniform so you can
+tune them live with the `crt` command.
+
+## hit-testing through curved glass
+
+Mouse clicks land on the *warped* image, so hit-testing runs the
+inverse barrel distortion (a few Newton iterations) before mapping
+pixels to cells. The forward and inverse warp share one constants
+module — the property test `inverse(forward(p)) ≈ p` keeps them honest.

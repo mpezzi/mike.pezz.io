@@ -1,0 +1,68 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Default theme (green phosphor) so first paint is styled before JS. */
+:root {
+  --term-bg: #0a0f0a;
+  --term-fg: #33ff33;
+  --term-cursor: #33ff33;
+  --term-selection: #1c4a1c;
+  --term-accent: #66ff66;
+  --term-link: #99ff99;
+  --term-error: #ff5555;
+  --term-dim: #1f9e1f;
+  --term-phosphor: #33ff33;
+  --term-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+  --crt-scanline: 0.4;
+  --crt-glow: 0.45;
+  --crt-vignette: 0.45;
+  --crt-flicker: 0.2;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--term-bg);
+  color: var(--term-fg);
+  font-family: var(--term-font);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+::selection {
+  background: var(--term-selection);
+}
+
+a {
+  color: var(--term-link);
+}
+
+#root,
+body > div {
+  height: 100%;
+}

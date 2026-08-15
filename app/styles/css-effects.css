@@ -1,0 +1,48 @@
+/* CSS-tier CRT effects: scanlines, glow, vignette, flicker.
+   Applied when effects mode is "css" via [data-effects="css"] on <html>.
+   Intensities come from --crt-* custom properties (set from EffectParams). */
+
+[data-effects="css"] .term-frame {
+  text-shadow: 0 0 calc(var(--crt-glow) * 6px)
+    color-mix(in srgb, var(--term-phosphor) 60%, transparent);
+}
+
+[data-effects="css"] body::after,
+[data-effects="css"] .crt-css-overlay {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(0 0 0 / calc(var(--crt-scanline) * 0.35)) 0px,
+      rgb(0 0 0 / calc(var(--crt-scanline) * 0.35)) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgb(0 0 0 / calc(var(--crt-vignette) * 0.55)) 100%
+    );
+}
+
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: calc(1 - var(--crt-flicker) * 0.12); }
+  94% { opacity: 1; }
+  97% { opacity: calc(1 - var(--crt-flicker) * 0.06); }
+}
+
+[data-effects="css"] .term-frame {
+  animation: crt-flicker 4s infinite steps(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-effects="css"] .term-frame {
+    animation: none;
+  }
+}

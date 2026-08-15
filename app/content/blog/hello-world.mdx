@@ -1,0 +1,31 @@
+---
+title: "hello, world"
+date: 2026-08-01
+tags: [meta, web]
+summary: "Why my personal site is a CRT terminal, and how it works."
+---
+
+Every developer portfolio looks the same, so I built mine as a terminal
+instead. You are reading this inside a simulated shell: pages are
+directories, posts are files, and there is a real command prompt at the
+bottom of the screen.
+
+## how it works
+
+The whole site is one content model rendered two ways. A semantic DOM
+tree keeps it accessible and indexable, and a WebGL pipeline draws the
+same content through a CRT shader — barrel curvature, scanlines,
+phosphor glow, and a little VHS noise.
+
+Try these:
+
+- `ls ~/work` — things I've built
+- `theme ls` — switch color schemes
+- `crt set curvature 0.8` — bend the glass
+- `effects off` — plain text, if the nostalgia wears off
+
+## the stack
+
+React 19, React Router in framework mode (statically prerendered),
+TypeScript strict, MDX for content, raw WebGL2 for the shader — no
+three.js. The source is on my GitHub.
