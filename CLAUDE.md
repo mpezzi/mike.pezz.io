@@ -19,7 +19,7 @@ pnpm preview      # serve build/client (note: serves SPA fallback for nested pat
 pnpm coverage     # enforces 90% thresholds on app/shell/** and app/themes/**
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint → typecheck → test → build, then deploys `build/client` to GitHub Pages on push to main. Commits follow Conventional Commits.
+CI (`.github/workflows/ci.yml`) runs lint → format check (`pnpm format:check`) → typecheck → coverage (thresholds enforced) → build, then deploys `build/client` to GitHub Pages on push to main. Run `pnpm format` before committing — Prettier is a CI gate. Commits follow Conventional Commits.
 
 `.agents/skills/react-router/` holds the React Router v8 framework-mode reference docs shipped by the template — consult for router/prerender API questions.
 
@@ -41,7 +41,7 @@ Routes build a `ScreenModel` (helpers in `app/screen/pages.ts`), register it via
 ### Pure layers (no React/DOM imports — unit-test these directly)
 
 - **`app/shell/`** — simulated shell. Every command is `(args, vfs, env) → CommandResult` returning output blocks, an env patch, and effects (`navigate`, `setTheme`, `setCrtParam`, …). `app/hooks/useShell.tsx` is the only place effects touch React/router. **The URL is the source of truth for `cwd`** — `cd` emits a navigate effect and router changes sync cwd back. `registry.ts` builds help/man from command metadata (note the lazy-registry pattern for `makeHelp`/`makeMan`). Fixtures for tests: `app/shell/test-fixtures.ts`.
-- **`app/effects/params.ts`** — **single source of truth for the barrel-warp math.** `MAX_WARP` and the forward/inverse warp here must stay identical to `barrelWarp()` in `composite.frag.glsl`; mouse hit-testing (`app/engine/hit-test.ts`) uses the *forward* warp because the shader samples `scene[forwardWarp(screenUv)]`. A property test guards `inverse(forward(p)) ≈ p`.
+- **`app/effects/params.ts`** — **single source of truth for the barrel-warp math.** `MAX_WARP` and the forward/inverse warp here must stay identical to `barrelWarp()` in `composite.frag.glsl`; mouse hit-testing (`app/engine/hit-test.ts`) uses the _forward_ warp because the shader samples `scene[forwardWarp(screenUv)]`. A property test guards `inverse(forward(p)) ≈ p`.
 - **`app/effects/settings-store.ts`** — CRT param resolution layers: `DEFAULT_PARAMS ← theme.effectDefaults ← preset ← user overrides` (localStorage `pezz.crt`).
 - **`app/engine/`** — `ScreenBuffer` (typed-array cells + dirty-row damage) → `Layout` (ScreenNodes → cells, registers link regions) → glyph-atlas 2D canvas → WebGL2 pipeline (bright-pass → separable blur at ¼ res → composite). Frame loop: scene/bloom rerun only on damage; composite runs per-rAF in animated mode, on-demand in static mode (reduced motion). `effects-mode.ts` is the fallback ladder: webgl → css → off.
 

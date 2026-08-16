@@ -51,6 +51,14 @@ describe("theme definitions", () => {
   });
 });
 
+describe("getTheme", () => {
+  it("throws on unknown ids", () => {
+    expect(() => getTheme("hotdog-stand" as Parameters<typeof getTheme>[0])).toThrow(
+      /unknown theme/,
+    );
+  });
+});
+
 describe("toggledTheme", () => {
   it("switches within a family", () => {
     expect(toggledTheme(getTheme("catppuccin-mocha")).id).toBe("catppuccin-latte");
@@ -62,6 +70,16 @@ describe("toggledTheme", () => {
   it("falls back to the default of the opposite mode without a family", () => {
     expect(toggledTheme(getTheme("dracula")).id).toBe(DEFAULT_LIGHT_THEME);
     expect(toggledTheme(getTheme("catppuccin-latte")).mode).toBe("dark");
+  });
+
+  it("falls back to the dark default from a familyless light theme", () => {
+    const { family: _family, ...rest } = getTheme("catppuccin-latte");
+    expect(toggledTheme(rest).id).toBe(DEFAULT_DARK_THEME);
+  });
+
+  it("falls back when a family has no counterpart in the target mode", () => {
+    const orphan = { ...getTheme("dracula"), family: "orphan-family" };
+    expect(toggledTheme(orphan).id).toBe(DEFAULT_LIGHT_THEME);
   });
 });
 

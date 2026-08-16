@@ -42,9 +42,7 @@ describe("effects", () => {
   });
 
   it("sets a valid mode and rejects junk", () => {
-    expect(run("effects off").effects).toEqual([
-      { type: "setEffectsMode", mode: "off" },
-    ]);
+    expect(run("effects off").effects).toEqual([{ type: "setEffectsMode", mode: "off" }]);
     expect(run("effects vhs").exitCode).toBe(1);
   });
 });
@@ -106,6 +104,53 @@ describe("help & man", () => {
     expect(run("man mike").exitCode).toBe(0);
     expect(run("man frob").exitCode).toBe(1);
     expect(run("man").exitCode).toBe(2);
+  });
+});
+
+describe("crt error branches", () => {
+  it("rejects resetting an unknown parameter", () => {
+    expect(run("crt reset sharpness").exitCode).toBe(1);
+  });
+});
+
+describe("argument completion", () => {
+  const env = fixtureEnv();
+
+  it("crt completes subcommands and parameter names", () => {
+    expect(registry.get("crt")?.complete?.("s", 0, vfs, env)).toEqual(["set"]);
+    expect(registry.get("crt")?.complete?.("curv", 1, vfs, env)).toEqual(["curvature"]);
+    expect(registry.get("crt")?.complete?.("x", 2, vfs, env)).toEqual([]);
+  });
+
+  it("effects completes modes at arg 0 only", () => {
+    expect(registry.get("effects")?.complete?.("w", 0, vfs, env)).toEqual(["webgl"]);
+    expect(registry.get("effects")?.complete?.("w", 1, vfs, env)).toEqual([]);
+  });
+
+  it("man completes command names and extra pages", () => {
+    const matches = registry.get("man")?.complete?.("m", 0, vfs, env) ?? [];
+    expect(matches).toContain("man");
+    expect(matches).toContain("mike");
+  });
+
+  it("theme completes nothing past the first argument", () => {
+    expect(registry.get("theme")?.complete?.("g", 1, vfs, env)).toEqual([]);
+  });
+
+  it("grep completes paths only from the second argument", () => {
+    expect(registry.get("grep")?.complete?.("b", 0, vfs, env)).toEqual([]);
+    expect(registry.get("grep")?.complete?.("b", 1, vfs, env)).toEqual(["blog/"]);
+  });
+});
+
+describe("cowsay long messages", () => {
+  it("wraps into a multi-line bubble", () => {
+    const result = run(`cowsay ${"m".repeat(130)}`);
+    if (result.output[0]?.type !== "pre") throw new Error("expected pre");
+    const bubble = result.output[0].lines;
+    expect(bubble.some((l) => l.startsWith("/ "))).toBe(true);
+    expect(bubble.some((l) => l.startsWith("| "))).toBe(true);
+    expect(bubble.some((l) => l.startsWith("\\ "))).toBe(true);
   });
 });
 

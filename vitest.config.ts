@@ -15,7 +15,12 @@ export default defineConfig({
     include: ["app/**/*.test.{ts,tsx}"],
     coverage: {
       provider: "v8",
-      include: ["app/shell/**", "app/themes/**", "app/screen/**", "app/effects/**"],
+      include: [
+        "app/shell/**/*.ts",
+        "app/themes/**/*.{ts,tsx}",
+        "app/screen/**/*.{ts,tsx}",
+        "app/effects/**/*.ts",
+      ],
       thresholds: {
         "app/shell/**": { statements: 90, branches: 85, functions: 90, lines: 90 },
         "app/themes/**": { statements: 90, branches: 85, functions: 90, lines: 90 },

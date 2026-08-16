@@ -103,6 +103,32 @@ describe("cat", () => {
   });
 });
 
+describe("cat error branches", () => {
+  it("reports missing files with exit 1", () => {
+    const result = run("cat ghost.txt");
+    expect(result.exitCode).toBe(1);
+    expect(result.output[0]).toMatchObject({
+      style: "error",
+      text: "cat: ghost.txt: no such file or directory",
+    });
+  });
+});
+
+describe("open on a directory", () => {
+  it("navigates and updates cwd", () => {
+    const result = run("open blog");
+    expect(result.env?.cwd).toBe("~/blog");
+    expect(result.effects).toEqual([{ type: "navigate", to: "/blog" }]);
+  });
+});
+
+describe("ls on a single file", () => {
+  it("prints just the file name", () => {
+    const result = run("ls about.txt");
+    expect(result.output[0]).toEqual({ type: "text", text: "about.txt" });
+  });
+});
+
 describe("pwd", () => {
   it("prints the expanded cwd", () => {
     const result = run("pwd", fixtureEnv({ cwd: "~/blog" }));

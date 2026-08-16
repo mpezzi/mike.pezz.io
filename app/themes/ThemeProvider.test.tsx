@@ -26,9 +26,7 @@ describe("ThemeProvider", () => {
     renderWithApp(<ThemeHarness />);
     expect(screen.getByTestId("theme-id")).toHaveTextContent("green-phosphor");
     expect(document.documentElement.dataset.theme).toBe("green-phosphor");
-    expect(
-      document.documentElement.style.getPropertyValue("--term-bg"),
-    ).not.toBe("");
+    expect(document.documentElement.style.getPropertyValue("--term-bg")).not.toBe("");
   });
 
   it("persists selection to localStorage and restores it", async () => {
@@ -39,6 +37,28 @@ describe("ThemeProvider", () => {
     unmount();
     renderWithApp(<ThemeHarness />);
     expect(screen.getByTestId("theme-id")).toHaveTextContent("dracula");
+  });
+
+  it("follows prefers-color-scheme: light when nothing is stored", () => {
+    const original = window.matchMedia.bind(window);
+    const lightStub = (query: string) =>
+      ({
+        matches: query.includes("light"),
+        media: query,
+        onchange: null,
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined,
+        addListener: () => undefined,
+        removeListener: () => undefined,
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    window.matchMedia = lightStub;
+    try {
+      renderWithApp(<ThemeHarness />);
+      expect(screen.getByTestId("theme-id")).toHaveTextContent("catppuccin-latte");
+    } finally {
+      window.matchMedia = original;
+    }
   });
 
   it("toggle switches within a family or to the mode default", async () => {
