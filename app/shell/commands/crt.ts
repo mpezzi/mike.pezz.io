@@ -18,7 +18,7 @@ export const crt: Command = {
   man: {
     synopsis: "crt [ls | set <param> <0-1> | reset [param] | preset <full|static|off>]",
     description:
-      "Tune the CRT effect parameters (curvature, scanlines, glow, noise, ...). Values are 0–1 and persist in your browser. Also adjustable at /settings.",
+      "Tune the CRT effect parameters (curvature, scanlines, glow, noise, ...). Values are 0–1 and persist in your browser. Also adjustable at /settings, where ↑/↓ (or k/j) select a parameter and ←/→ (or h/l) adjust it.",
     examples: ["crt ls", "crt set curvature 0.8", "crt reset", "crt preset static"],
   },
   run(args, _vfs, env) {

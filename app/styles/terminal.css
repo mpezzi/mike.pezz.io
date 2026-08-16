@@ -251,6 +251,19 @@
   margin: 0.35rem 0;
 }
 
+.term-settings-row label {
+  white-space: pre;
+}
+
+.term-settings-row[data-selected="true"] label {
+  color: var(--term-accent);
+  font-weight: 700;
+}
+
+.term-settings-row[data-selected="true"] {
+  background: color-mix(in srgb, var(--term-selection) 45%, transparent);
+}
+
 .term-settings-row input[type="range"] {
   accent-color: var(--term-accent);
   background: transparent;
