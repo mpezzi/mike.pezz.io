@@ -20,14 +20,17 @@ export const theme: Command = {
       ]);
       return ok([
         { type: "table", rows },
-        { type: "text", text: "theme <id> to switch, theme toggle for light/dark.", style: "dim" },
+        {
+          type: "text",
+          text: "theme <id> to switch, theme toggle for light/dark.",
+          style: "dim",
+        },
       ]);
     }
     if (sub === "toggle") {
-      return ok(
-        [{ type: "text", text: "toggled light/dark mode", style: "dim" }],
-        { effects: [{ type: "toggleThemeMode" }] },
-      );
+      return ok([{ type: "text", text: "toggled light/dark mode", style: "dim" }], {
+        effects: [{ type: "toggleThemeMode" }],
+      });
     }
     if (!isThemeId(sub)) {
       return fail(`theme: unknown theme '${sub}' (try: theme ls)`);

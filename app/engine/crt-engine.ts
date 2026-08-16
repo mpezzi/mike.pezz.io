@@ -71,9 +71,7 @@ export class CrtEngine {
 
     const probe = document.createElement("canvas").getContext("2d");
     if (!probe) throw new Error("2d context unavailable");
-    const fontSize = Math.round(
-      (window.innerWidth < 640 ? 13 : 15) * this.dpr,
-    );
+    const fontSize = Math.round((window.innerWidth < 640 ? 13 : 15) * this.dpr);
     this.metrics = measureFont(probe, FONT_FAMILY, fontSize);
 
     this.sizeToWindow();
@@ -205,7 +203,14 @@ export class CrtEngine {
     // Prompt line.
     const promptY = this.viewRows - 2;
     this.view.clearRow(promptY);
-    const x = this.view.writeText(1, promptY, this.content.ps1, COLOR_SLOTS.accent, COLOR_SLOTS.bg, ATTR_BOLD);
+    const x = this.view.writeText(
+      1,
+      promptY,
+      this.content.ps1,
+      COLOR_SLOTS.accent,
+      COLOR_SLOTS.bg,
+      ATTR_BOLD,
+    );
     this.view.writeText(x + 1, promptY, this.content.promptValue);
     // Status line.
     const statusY = this.viewRows - 1;
@@ -235,7 +240,8 @@ export class CrtEngine {
       this.pipeline.uploadScene(this.scene.canvas);
       this.sceneDirty = false;
     }
-    const caretCol = 1 + (this.content?.ps1.length ?? 0) + 1 + (this.content?.promptCaret ?? 0);
+    const caretCol =
+      1 + (this.content?.ps1.length ?? 0) + 1 + (this.content?.promptCaret ?? 0);
     this.pipeline.render(this.canvas.width, this.canvas.height, {
       time: timeMs / 1000,
       rows: this.viewRows,

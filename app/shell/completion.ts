@@ -53,7 +53,8 @@ export function complete(
       .names()
       .filter((n) => n.startsWith(partial) && !registry.get(n)?.hidden);
     if (matches.length === 0) return { candidates: [] };
-    if (matches.length === 1) return { replacement: `${matches[0]} `, candidates: matches };
+    if (matches.length === 1)
+      return { replacement: `${matches[0]} `, candidates: matches };
     const prefix = commonPrefix(matches);
     return prefix.length > partial.length
       ? { replacement: prefix, candidates: matches }

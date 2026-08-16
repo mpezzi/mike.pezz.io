@@ -46,11 +46,7 @@ function renderNode(node: ScreenNode, key: number): ReactNode {
         </span>
       );
     case "line":
-      return (
-        <div key={key}>
-          {node.children.map((child, i) => renderNode(child, i))}
-        </div>
-      );
+      return <div key={key}>{node.children.map((child, i) => renderNode(child, i))}</div>;
     case "heading": {
       const Tag = node.level === 1 ? "h1" : node.level === 2 ? "h2" : "h3";
       return <Tag key={key}>{node.text}</Tag>;
@@ -90,7 +86,11 @@ function renderNode(node: ScreenNode, key: number): ReactNode {
         </div>
       );
     case "pre":
-      return <pre key={key} {...styleProps(node.style)}>{node.lines.join("\n")}</pre>;
+      return (
+        <pre key={key} {...styleProps(node.style)}>
+          {node.lines.join("\n")}
+        </pre>
+      );
     case "list":
       return (
         <ul key={key} className="term-menu">

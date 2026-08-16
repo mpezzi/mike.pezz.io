@@ -3,10 +3,7 @@ import { outputToScreen } from "./output-to-screen";
 
 describe("outputToScreen", () => {
   it("converts text with styles", () => {
-    const nodes = outputToScreen(
-      [{ type: "text", text: "oops", style: "error" }],
-      "t",
-    );
+    const nodes = outputToScreen([{ type: "text", text: "oops", style: "error" }], "t");
     expect(nodes[0]).toMatchObject({
       kind: "line",
       children: [{ kind: "text", text: "oops", style: { fg: "error" } }],

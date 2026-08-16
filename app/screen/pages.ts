@@ -1,16 +1,6 @@
 import type { ContentEntry } from "~/content/schema";
 import { formatIsoDate } from "~/lib/format";
-import {
-  blank,
-  block,
-  heading,
-  line,
-  link,
-  list,
-  pre,
-  rule,
-  text,
-} from "./builders";
+import { blank, block, heading, line, link, list, pre, rule, text } from "./builders";
 import type { ScreenModel, ScreenNode } from "./model";
 
 export function homeModel(latestPosts: ContentEntry[]): ScreenModel {
@@ -28,16 +18,26 @@ export function homeModel(latestPosts: ContentEntry[]): ScreenModel {
       { fg: "accent" },
     ),
     heading(1, "Mike Pezzi — Software Engineer"),
-    line(
-      text("Welcome to my terminal. I build software for the web — "),
-    ),
+    line(text("Welcome to my terminal. I build software for the web — ")),
     line(text("TypeScript, React, and the occasional descent into shaders.")),
     blank(),
     list([
-      [link("blog/", "nav-blog", { navigate: "/blog" }), text("      writing about software", { fg: "dim" })],
-      [link("work/", "nav-work", { navigate: "/work" }), text("      things I've built", { fg: "dim" })],
-      [link("contact.txt", "nav-contact", { navigate: "/contact" }), text(" how to reach me", { fg: "dim" })],
-      [link("settings/", "nav-settings", { navigate: "/settings" }), text("  themes & CRT tuning", { fg: "dim" })],
+      [
+        link("blog/", "nav-blog", { navigate: "/blog" }),
+        text("      writing about software", { fg: "dim" }),
+      ],
+      [
+        link("work/", "nav-work", { navigate: "/work" }),
+        text("      things I've built", { fg: "dim" }),
+      ],
+      [
+        link("contact.txt", "nav-contact", { navigate: "/contact" }),
+        text(" how to reach me", { fg: "dim" }),
+      ],
+      [
+        link("settings/", "nav-settings", { navigate: "/settings" }),
+        text("  themes & CRT tuning", { fg: "dim" }),
+      ],
     ]),
     rule(),
     heading(2, "recent posts"),
@@ -87,9 +87,7 @@ export function detailModel(entry: ContentEntry): ScreenModel {
   return {
     title: entry.frontmatter.title,
     nodes: [
-      line(
-        text(`$ cat ~/${entry.collection}/${entry.slug}.md`, { fg: "dim" }),
-      ),
+      line(text(`$ cat ~/${entry.collection}/${entry.slug}.md`, { fg: "dim" })),
       heading(1, entry.frontmatter.title),
       line(
         text(

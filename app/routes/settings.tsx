@@ -121,17 +121,16 @@ export default function Settings() {
   // selected row so keyboard control is visible in webgl mode too.
   const model = useMemo((): ScreenModel => {
     const marker = (i: number) => text(i === selected ? "▸ " : "  ", { fg: "accent" });
-    const paramNodes = EFFECT_PARAM_NAMES.map(
-      (name, i): ScreenNode =>
-        line(
-          marker(i),
-          text(name.padEnd(12), i === selected ? { fg: "accent", bold: true } : {}),
-          text(` ${bar(effects.params[name])} `, { fg: "dim" }),
-          text(effects.params[name].toFixed(2)),
-          text(effects.settings.overrides[name] !== undefined ? "  (custom)" : "", {
-            fg: "dim",
-          }),
-        ),
+    const paramNodes = EFFECT_PARAM_NAMES.map((name, i): ScreenNode =>
+      line(
+        marker(i),
+        text(name.padEnd(12), i === selected ? { fg: "accent", bold: true } : {}),
+        text(` ${bar(effects.params[name])} `, { fg: "dim" }),
+        text(effects.params[name].toFixed(2)),
+        text(effects.settings.overrides[name] !== undefined ? "  (custom)" : "", {
+          fg: "dim",
+        }),
+      ),
     );
     const modeIndex = EFFECT_PARAM_NAMES.length;
     const modeNode = line(
@@ -191,8 +190,7 @@ export default function Settings() {
       <h2>crt effects</h2>
       <p className="term-dim">
         Each parameter is 0–1 and persists in this browser. The same values drive the
-        WebGL shader and the CSS fallback. Also available as the <code>crt</code>{" "}
-        command.
+        WebGL shader and the CSS fallback. Also available as the <code>crt</code> command.
       </p>
       <p className="term-dim">{KEYS_HINT}</p>
       {EFFECT_PARAM_NAMES.map((name, i) => (
@@ -221,7 +219,11 @@ export default function Settings() {
         </div>
       ))}
       <p>
-        <button type="button" className="term-button" onClick={() => effects.store.reset()}>
+        <button
+          type="button"
+          className="term-button"
+          onClick={() => effects.store.reset()}
+        >
           reset all
         </button>
         {PRESETS.map((preset) => (
@@ -279,9 +281,7 @@ export default function Settings() {
                 onFocus={() => setSelected(rowIndex)}
                 onClick={() => setTheme(t.id)}
               >
-                <span className="term-accent">
-                  {selected === rowIndex ? "▸ " : "  "}
-                </span>
+                <span className="term-accent">{selected === rowIndex ? "▸ " : "  "}</span>
                 <span>{theme.id === t.id ? "* " : "  "}</span>
                 {t.id.padEnd(18)}
                 <span className="term-dim">

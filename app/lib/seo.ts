@@ -14,7 +14,9 @@ export type MetaDescriptor = Record<string, string>;
 
 export function buildMeta(input: MetaInput): MetaDescriptor[] {
   const fullTitle =
-    input.path === "/" ? `${SITE_NAME} — Software Engineer` : `${input.title} · ${SITE_NAME}`;
+    input.path === "/"
+      ? `${SITE_NAME} — Software Engineer`
+      : `${input.title} · ${SITE_NAME}`;
   const url = `${SITE_URL}${input.path}`;
   const meta: MetaDescriptor[] = [
     { title: fullTitle },

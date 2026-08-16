@@ -25,8 +25,7 @@
   --term-error: #ff5555;
   --term-dim: #1f9e1f;
   --term-phosphor: #33ff33;
-  --term-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
-    monospace;
+  --term-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --crt-scanline: 0.4;
   --crt-glow: 0.45;
   --crt-vignette: 0.45;

@@ -18,8 +18,22 @@ import { whoami } from "./commands/whoami";
 import type { Command } from "./types";
 
 const COMMANDS: Command[] = [
-  cat, cd, open, clear, cowsay, crt, echo, effects, exit,
-  grep, ls, neofetch, pwd, sudo, theme, whoami,
+  cat,
+  cd,
+  open,
+  clear,
+  cowsay,
+  crt,
+  echo,
+  effects,
+  exit,
+  grep,
+  ls,
+  neofetch,
+  pwd,
+  sudo,
+  theme,
+  whoami,
 ];
 
 export interface Registry {

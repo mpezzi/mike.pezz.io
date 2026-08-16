@@ -36,11 +36,7 @@ export interface Vfs {
   pathForUrl(urlPath: string): string | undefined;
 }
 
-export function dir(
-  name: string,
-  children: VfsNode[] = [],
-  urlPath?: string,
-): VfsDir {
+export function dir(name: string, children: VfsNode[] = [], urlPath?: string): VfsDir {
   const d: VfsDir = { kind: "dir", name, children: new Map() };
   if (urlPath !== undefined) d.urlPath = urlPath;
   for (const child of children) d.children.set(child.name, child);

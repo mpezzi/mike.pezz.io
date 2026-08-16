@@ -21,10 +21,9 @@ export const effects: Command = {
     if (!(MODES as string[]).includes(mode)) {
       return fail(`effects: unknown mode '${mode}' (webgl, css, off)`);
     }
-    return ok(
-      [{ type: "text", text: `effects mode: ${mode}`, style: "dim" }],
-      { effects: [{ type: "setEffectsMode", mode: mode as EffectsMode }] },
-    );
+    return ok([{ type: "text", text: `effects mode: ${mode}`, style: "dim" }], {
+      effects: [{ type: "setEffectsMode", mode: mode as EffectsMode }],
+    });
   },
   complete(partial, argIndex) {
     if (argIndex > 0) return [];

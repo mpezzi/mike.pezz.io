@@ -11,11 +11,7 @@ export function line(...children: (ScreenNode | string)[]): ScreenNode {
   };
 }
 
-export function heading(
-  level: 1 | 2 | 3,
-  value: string,
-  style?: StyleAttrs,
-): ScreenNode {
+export function heading(level: 1 | 2 | 3, value: string, style?: StyleAttrs): ScreenNode {
   return style
     ? { kind: "heading", level, text: value, style }
     : { kind: "heading", level, text: value };

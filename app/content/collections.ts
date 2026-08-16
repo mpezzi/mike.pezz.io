@@ -47,7 +47,9 @@ function buildCollection(collection: Collection): ContentEntry[] {
     }
     if (parsed.data.draft && import.meta.env.PROD) continue;
     const slug = slugFromPath(path);
-    const raw = stripFrontmatter((rawSources[collection][path] as string | undefined) ?? "");
+    const raw = stripFrontmatter(
+      (rawSources[collection][path] as string | undefined) ?? "",
+    );
     entries.push({
       slug,
       collection,
@@ -72,10 +74,7 @@ function buildCollection(collection: Collection): ContentEntry[] {
 export const blogEntries: ContentEntry[] = buildCollection("blog");
 export const workEntries: ContentEntry[] = buildCollection("work");
 
-export function getEntry(
-  collection: Collection,
-  slug: string,
-): ContentEntry | undefined {
+export function getEntry(collection: Collection, slug: string): ContentEntry | undefined {
   const entries = collection === "blog" ? blogEntries : workEntries;
   return entries.find((e) => e.slug === slug);
 }

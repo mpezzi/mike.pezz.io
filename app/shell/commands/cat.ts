@@ -24,7 +24,11 @@ export const cat: Command = {
         continue;
       }
       if (node.kind === "dir") {
-        output.push({ type: "text", text: `cat: ${target}: is a directory`, style: "error" });
+        output.push({
+          type: "text",
+          text: `cat: ${target}: is a directory`,
+          style: "error",
+        });
         exitCode = 1;
         continue;
       }

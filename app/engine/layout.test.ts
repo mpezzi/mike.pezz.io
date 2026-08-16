@@ -64,13 +64,7 @@ describe("Layout", () => {
   it("renders headings, rules, pre, lists, and blanks", () => {
     const buffer = new ScreenBuffer(30, 20);
     const next = new Layout(buffer, new RegionMap()).render(
-      [
-        heading(1, "title"),
-        rule(),
-        pre(["  raw"]),
-        list([[text("item")]]),
-        blank(),
-      ],
+      [heading(1, "title"), rule(), pre(["  raw"]), list([[text("item")]]), blank()],
       0,
     );
     expect(rowText(buffer, 0)).toBe(" # title");

@@ -30,11 +30,22 @@
 }
 
 @keyframes crt-flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: calc(1 - var(--crt-flicker) * 0.12); }
-  94% { opacity: 1; }
-  97% { opacity: calc(1 - var(--crt-flicker) * 0.06); }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: calc(1 - var(--crt-flicker) * 0.12);
+  }
+  94% {
+    opacity: 1;
+  }
+  97% {
+    opacity: calc(1 - var(--crt-flicker) * 0.06);
+  }
 }
 
 [data-effects="css"] .term-frame {

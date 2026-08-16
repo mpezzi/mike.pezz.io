@@ -76,7 +76,7 @@ export function EffectsProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setModeState(initialMode());
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-     
+
     setReducedMotion(media.matches);
     const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     media.addEventListener("change", onChange);

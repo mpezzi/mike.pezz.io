@@ -1,11 +1,6 @@
 import type { PaletteRef, ScreenNode, StyleAttrs } from "~/screen/model";
 import { RegionMap } from "./regions";
-import {
-  ATTR_BOLD,
-  ATTR_UNDERLINE,
-  COLOR_SLOTS,
-  ScreenBuffer,
-} from "./screen-buffer";
+import { ATTR_BOLD, ATTR_UNDERLINE, COLOR_SLOTS, ScreenBuffer } from "./screen-buffer";
 
 export function slotForPalette(ref: PaletteRef | undefined, fallback: number): number {
   if (ref === undefined) return fallback;
@@ -172,12 +167,7 @@ export class Layout {
           }
           break;
         case "rule":
-          this.buffer.writeText(
-            this.margin,
-            y,
-            "─".repeat(this.width),
-            COLOR_SLOTS.dim,
-          );
+          this.buffer.writeText(this.margin, y, "─".repeat(this.width), COLOR_SLOTS.dim);
           y += 1;
           break;
         case "blank":

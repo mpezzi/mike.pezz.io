@@ -46,7 +46,10 @@ export function CrtCanvas() {
     const input = document.getElementById("shell-input");
     if (!(input instanceof HTMLInputElement)) return;
     const sync = () =>
-      setPrompt({ value: input.value, caret: input.selectionStart ?? input.value.length });
+      setPrompt({
+        value: input.value,
+        caret: input.selectionStart ?? input.value.length,
+      });
     sync();
     const events = ["input", "keyup", "click", "focus"] as const;
     for (const evt of events) input.addEventListener(evt, sync);
@@ -77,14 +80,16 @@ export function CrtCanvas() {
     const page = model ? resolveArticles(model.nodes) : [];
     const scrollback: ScreenNode[] = shell.lines.flatMap((entry) => [
       blank(),
-      line(
-        text(`mike@pezz.io:${entry.cwd}$ `, { fg: "accent" }),
-        text(entry.input),
-      ),
+      line(text(`mike@pezz.io:${entry.cwd}$ `, { fg: "accent" }), text(entry.input)),
       ...outputToScreen(entry.output, `sb-${entry.id}`),
     ]);
     return {
-      nodes: [...header, ...page, ...(scrollback.length > 0 ? [blank(), rule()] : []), ...scrollback],
+      nodes: [
+        ...header,
+        ...page,
+        ...(scrollback.length > 0 ? [blank(), rule()] : []),
+        ...scrollback,
+      ],
       ps1: `mike@pezz.io:${shell.cwd}$`,
       promptValue: prompt.value,
       promptCaret: prompt.caret,

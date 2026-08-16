@@ -38,7 +38,11 @@ export function makeMan(registry: () => Registry): Command {
         output.push(
           { type: "text", text: "" },
           { type: "text", text: "EXAMPLES", style: "accent" },
-          ...examples.map((e) => ({ type: "text" as const, text: `    ${e}`, style: "dim" as const })),
+          ...examples.map((e) => ({
+            type: "text" as const,
+            text: `    ${e}`,
+            style: "dim" as const,
+          })),
         );
       }
       return ok(output);

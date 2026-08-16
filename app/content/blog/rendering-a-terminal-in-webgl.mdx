@@ -6,7 +6,7 @@ summary: "Notes on drawing a character grid to a texture and post-processing it 
 ---
 
 The trick to a convincing CRT effect is that you cannot shader-warp the
-DOM. To bend text around a glass tube you need the text *as pixels*, so
+DOM. To bend text around a glass tube you need the text _as pixels_, so
 this site renders everything into a character-cell buffer first.
 
 ## the pipeline
@@ -24,7 +24,7 @@ tune them live with the `crt` command.
 
 ## hit-testing through curved glass
 
-Mouse clicks land on the *warped* image, so hit-testing runs the
+Mouse clicks land on the _warped_ image, so hit-testing runs the
 inverse barrel distortion (a few Newton iterations) before mapping
 pixels to cells. The forward and inverse warp share one constants
 module — the property test `inverse(forward(p)) ≈ p` keeps them honest.

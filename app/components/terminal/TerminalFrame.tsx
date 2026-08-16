@@ -89,9 +89,7 @@ export function TerminalFrame({ children }: { children: React.ReactNode }) {
           {shell.lines.map((entry) => (
             <div key={entry.id}>
               <div>
-                <span className="term-prompt-ps1">
-                  mike@pezz.io:{entry.cwd}${" "}
-                </span>
+                <span className="term-prompt-ps1">mike@pezz.io:{entry.cwd}$ </span>
                 {entry.input}
               </div>
               <OutputBlocks blocks={entry.output} />
@@ -110,7 +108,11 @@ export function TerminalFrame({ children }: { children: React.ReactNode }) {
               type="button"
               onClick={() =>
                 effects.setMode(
-                  effects.mode === "webgl" ? "off" : effects.mode === "off" ? "css" : "webgl",
+                  effects.mode === "webgl"
+                    ? "off"
+                    : effects.mode === "off"
+                      ? "css"
+                      : "webgl",
                 )
               }
             >

@@ -45,7 +45,10 @@ export const ls: Command = {
         { text: perms, style: "dim" },
         { text: "mike", style: "dim" },
         { text: size, style: "dim" },
-        { text: formatDate(entry.kind === "file" ? entry.meta?.date : undefined), style: "dim" },
+        {
+          text: formatDate(entry.kind === "file" ? entry.meta?.date : undefined),
+          style: "dim",
+        },
         nameCell,
         ...(entry.kind === "file" && entry.meta?.title
           ? [{ text: entry.meta.title, style: "dim" as const }]

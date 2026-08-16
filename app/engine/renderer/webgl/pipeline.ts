@@ -46,11 +46,7 @@ export class CrtPipeline {
   private sceneHeight: number;
   private bloomDirty = true;
 
-  constructor(
-    gl: WebGL2RenderingContext,
-    sceneWidth: number,
-    sceneHeight: number,
-  ) {
+  constructor(gl: WebGL2RenderingContext, sceneWidth: number, sceneHeight: number) {
     this.gl = gl;
     this.sceneWidth = sceneWidth;
     this.sceneHeight = sceneHeight;

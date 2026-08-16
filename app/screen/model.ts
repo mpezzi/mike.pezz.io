@@ -6,13 +6,7 @@
 
 /** Reference into the theme palette (semantic slots or ANSI index). */
 export type PaletteRef =
-  | "fg"
-  | "bg"
-  | "accent"
-  | "link"
-  | "error"
-  | "dim"
-  | `ansi${number}`;
+  "fg" | "bg" | "accent" | "link" | "error" | "dim" | `ansi${number}`;
 
 export interface StyleAttrs {
   fg?: PaletteRef;
@@ -23,10 +17,7 @@ export interface StyleAttrs {
   underline?: boolean;
 }
 
-export type Action =
-  | { navigate: string }
-  | { run: string }
-  | { href: string };
+export type Action = { navigate: string } | { run: string } | { href: string };
 
 export type ScreenNode =
   | { kind: "text"; text: string; style?: StyleAttrs }

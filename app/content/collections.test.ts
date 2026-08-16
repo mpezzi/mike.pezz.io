@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { blogEntries, getEntry, slugFromPath, stripFrontmatter, workEntries } from "./collections";
+import {
+  blogEntries,
+  getEntry,
+  slugFromPath,
+  stripFrontmatter,
+  workEntries,
+} from "./collections";
 
 describe("content collections", () => {
   it("loads at least one entry per collection", () => {
@@ -30,9 +36,9 @@ describe("content collections", () => {
   it("entries are sorted newest first", () => {
     for (const entries of [blogEntries, workEntries]) {
       for (let i = 1; i < entries.length; i++) {
-        expect(
-          entries[i - 1]!.frontmatter.date.getTime(),
-        ).toBeGreaterThanOrEqual(entries[i]!.frontmatter.date.getTime());
+        expect(entries[i - 1]!.frontmatter.date.getTime()).toBeGreaterThanOrEqual(
+          entries[i]!.frontmatter.date.getTime(),
+        );
       }
     }
   });

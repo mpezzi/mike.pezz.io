@@ -76,11 +76,7 @@ export const PRESETS: Record<EffectPresetName, Partial<EffectParams>> = {
  */
 export const MAX_WARP = 0.18;
 
-export function forwardWarp(
-  x: number,
-  y: number,
-  curvature: number,
-): [number, number] {
+export function forwardWarp(x: number, y: number, curvature: number): [number, number] {
   const cx = x * 2 - 1;
   const cy = y * 2 - 1;
   const r2 = cx * cx + cy * cy;
@@ -93,11 +89,7 @@ export function forwardWarp(
  * Inverse of forwardWarp via Newton iteration (the warp is radial and
  * monotonic for k in range, so 3 iterations converge well below 1e-4).
  */
-export function inverseWarp(
-  x: number,
-  y: number,
-  curvature: number,
-): [number, number] {
+export function inverseWarp(x: number, y: number, curvature: number): [number, number] {
   const k = curvature * MAX_WARP;
   if (k === 0) return [x, y];
   const tx = x * 2 - 1;

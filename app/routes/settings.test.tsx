@@ -40,9 +40,7 @@ describe("Settings keyboard control", () => {
     const user = userEvent.setup();
     renderWithApp(<Settings />, { path: "/settings" });
     await user.keyboard("{Shift>}l{/Shift}");
-    expect(sliderFor(EFFECT_PARAM_NAMES[0]!).value).toBe(
-      String(CURVATURE_DEFAULT + 0.1),
-    );
+    expect(sliderFor(EFFECT_PARAM_NAMES[0]!).value).toBe(String(CURVATURE_DEFAULT + 0.1));
   });
 
   it("j/k and arrows move the selection between rows", async () => {
@@ -83,9 +81,9 @@ describe("Settings keyboard control", () => {
     const user = userEvent.setup();
     renderWithApp(<Settings />, { path: "/settings" });
     await user.keyboard("l");
-    const stored = JSON.parse(
-      window.localStorage.getItem(CRT_STORAGE_KEY) ?? "{}",
-    ) as { overrides?: Record<string, number> };
+    const stored = JSON.parse(window.localStorage.getItem(CRT_STORAGE_KEY) ?? "{}") as {
+      overrides?: Record<string, number>;
+    };
     expect(stored.overrides?.[EFFECT_PARAM_NAMES[0]!]).toBeCloseTo(
       CURVATURE_DEFAULT + 0.05,
     );

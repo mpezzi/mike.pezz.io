@@ -37,7 +37,10 @@ export function MenuList({ items, label }: { items: MenuItem[]; label: string })
           <Link to={item.to} onKeyDown={onKeyDown}>
             <span className="term-menu-name">{item.name}</span>
             {item.detail !== undefined && (
-              <span className="term-dim">{"  "}{item.detail}</span>
+              <span className="term-dim">
+                {"  "}
+                {item.detail}
+              </span>
             )}
           </Link>
         </li>

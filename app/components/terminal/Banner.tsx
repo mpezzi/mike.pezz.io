@@ -51,7 +51,12 @@ export function Banner() {
           {theme.colors.ansi.slice(0, 8).map((color, i) => (
             <span
               key={i}
-              style={{ width: "2ch", height: "1em", background: color, display: "inline-block" }}
+              style={{
+                width: "2ch",
+                height: "1em",
+                background: color,
+                display: "inline-block",
+              }}
             />
           ))}
         </div>

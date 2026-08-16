@@ -72,7 +72,9 @@ export const crt: Command = {
         [
           {
             type: "text",
-            text: param ? `${param} reset to default` : "all parameters reset to defaults",
+            text: param
+              ? `${param} reset to default`
+              : "all parameters reset to defaults",
             style: "dim",
           },
         ],
@@ -91,10 +93,9 @@ export const crt: Command = {
       if (preset === undefined || !(PRESET_NAMES as string[]).includes(preset)) {
         return fail("usage: crt preset <full|static|off>", 2);
       }
-      return ok(
-        [{ type: "text", text: `preset: ${preset}`, style: "dim" }],
-        { effects: [{ type: "setCrtPreset", preset: preset as EffectPresetName }] },
-      );
+      return ok([{ type: "text", text: `preset: ${preset}`, style: "dim" }], {
+        effects: [{ type: "setCrtPreset", preset: preset as EffectPresetName }],
+      });
     }
 
     return fail(`crt: unknown subcommand '${sub}' (ls, set, reset, preset)`, 2);

@@ -22,11 +22,7 @@ export interface CellHit {
  * screen pixel, so pointer → content uses the same forward warp (the
  * inverse maps content → screen and is kept for overlay positioning).
  */
-export function hitTest(
-  x: number,
-  y: number,
-  geo: HitTestGeometry,
-): CellHit | undefined {
+export function hitTest(x: number, y: number, geo: HitTestGeometry): CellHit | undefined {
   if (geo.width <= 0 || geo.height <= 0) return undefined;
   const [u, v] = forwardWarp(x / geo.width, y / geo.height, geo.curvature);
   if (u < 0 || u > 1 || v < 0 || v > 1) return undefined;

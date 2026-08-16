@@ -27,8 +27,22 @@ export interface ThemeColors {
   dim: string;
   /** ANSI 0–15: black, red, green, yellow, blue, magenta, cyan, white, then bright variants. */
   ansi: readonly [
-    string, string, string, string, string, string, string, string,
-    string, string, string, string, string, string, string, string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
   ];
 }
 

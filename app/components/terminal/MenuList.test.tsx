@@ -13,10 +13,7 @@ const items = [
 describe("MenuList", () => {
   it("renders real links with hrefs", () => {
     renderWithApp(<MenuList items={items} label="site" />);
-    expect(screen.getByRole("link", { name: /blog/ })).toHaveAttribute(
-      "href",
-      "/blog",
-    );
+    expect(screen.getByRole("link", { name: /blog/ })).toHaveAttribute("href", "/blog");
     expect(screen.getByRole("list", { name: "site" })).toBeInTheDocument();
   });
 

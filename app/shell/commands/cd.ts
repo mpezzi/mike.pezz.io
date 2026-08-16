@@ -21,7 +21,8 @@ export const cd: Command = {
       effects: url !== undefined ? [{ type: "navigate", to: url }] : [],
     });
   },
-  complete: (partial, _i, vfs, env) => completePath(partial, vfs, env, { dirsOnly: true }),
+  complete: (partial, _i, vfs, env) =>
+    completePath(partial, vfs, env, { dirsOnly: true }),
 };
 
 export const open: Command = {
