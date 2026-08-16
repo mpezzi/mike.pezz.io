@@ -25,8 +25,8 @@ const NAV_LINKS: [string, string][] = [
   ["~", "/"],
   ["blog/", "/blog"],
   ["work/", "/work"],
-  ["contact.txt", "/contact"],
   ["settings/", "/settings"],
+  ["contact.txt", "/contact"],
 ];
 
 export function CrtCanvas() {

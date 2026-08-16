@@ -32,12 +32,12 @@ export function homeModel(latestPosts: ContentEntry[]): ScreenModel {
         text("      things I've built", { fg: "dim" }),
       ],
       [
-        link("contact.txt", "nav-contact", { navigate: "/contact" }),
-        text(" how to reach me", { fg: "dim" }),
-      ],
-      [
         link("settings/", "nav-settings", { navigate: "/settings" }),
         text("  themes & CRT tuning", { fg: "dim" }),
+      ],
+      [
+        link("contact.txt", "nav-contact", { navigate: "/contact" }),
+        text(" how to reach me", { fg: "dim" }),
       ],
     ]),
     rule(),

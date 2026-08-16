@@ -12,8 +12,8 @@ const NAV = [
   { to: "/", label: "~" },
   { to: "/blog", label: "blog/" },
   { to: "/work", label: "work/" },
-  { to: "/contact", label: "contact.txt" },
   { to: "/settings", label: "settings/" },
+  { to: "/contact", label: "contact.txt" },
 ];
 
 export function TerminalFrame({ children }: { children: React.ReactNode }) {
