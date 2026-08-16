@@ -43,6 +43,7 @@ function initialMode(): EffectsMode {
   return resolveEffectsMode(window.localStorage.getItem(EFFECTS_MODE_STORAGE_KEY), {
     webgl2: probeWebgl2(),
     contextLossCount: 0,
+    coarsePointer: window.matchMedia("(pointer: coarse)").matches,
   });
 }
 

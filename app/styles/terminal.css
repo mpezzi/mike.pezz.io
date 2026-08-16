@@ -348,3 +348,43 @@ button.term-button[data-active="true"] {
     gap: 0.5rem;
   }
 }
+
+/* Touch ergonomics: comfortable tap targets, and a >=16px prompt input
+   so iOS Safari doesn't force-zoom the page on focus. Desktop (fine
+   pointers) is unaffected. */
+@media (pointer: coarse) {
+  .term-prompt-input {
+    font-size: 16px;
+  }
+
+  .term-titlebar nav a {
+    padding: 0.6rem 0.35rem;
+    display: inline-block;
+  }
+
+  .term-menu a {
+    padding: 0.6rem 0.35rem;
+  }
+
+  .term-theme-menu button.term-button {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .term-statusbar {
+    font-size: 0.9rem;
+    align-items: center;
+  }
+
+  .term-statusbar button {
+    padding: 0.6rem 0.25rem;
+  }
+
+  button.term-button {
+    padding: 0.5rem 0.9rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .term-promptline {
+    padding: 0.6rem 0;
+  }
+}

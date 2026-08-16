@@ -12,9 +12,10 @@ describe("isEffectsMode", () => {
 });
 
 describe("resolveEffectsMode ladder", () => {
-  const capable = { webgl2: true, contextLossCount: 0 };
-  const broken = { webgl2: false, contextLossCount: 0 };
-  const flaky = { webgl2: true, contextLossCount: 2 };
+  const capable = { webgl2: true, contextLossCount: 0, coarsePointer: false };
+  const broken = { webgl2: false, contextLossCount: 0, coarsePointer: false };
+  const flaky = { webgl2: true, contextLossCount: 2, coarsePointer: false };
+  const touch = { webgl2: true, contextLossCount: 0, coarsePointer: true };
 
   it("defaults to webgl when capable", () => {
     expect(resolveEffectsMode(null, capable)).toBe("webgl");
@@ -38,5 +39,15 @@ describe("resolveEffectsMode ladder", () => {
 
   it("never upgrades an explicit off", () => {
     expect(resolveEffectsMode("off", broken)).toBe("off");
+  });
+
+  it("defaults touch devices to css even when webgl is capable", () => {
+    expect(resolveEffectsMode(null, touch)).toBe("css");
+    expect(resolveEffectsMode("garbage", touch)).toBe("css");
+  });
+
+  it("honors an explicit webgl choice on touch devices", () => {
+    expect(resolveEffectsMode("webgl", touch)).toBe("webgl");
+    expect(resolveEffectsMode("off", touch)).toBe("off");
   });
 });

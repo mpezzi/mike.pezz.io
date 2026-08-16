@@ -74,7 +74,9 @@ shell commands ──► OutputBlock[] ──► both renderers
   keyboard nav, and the mobile keyboard all work. `prefers-reduced-motion`
   silences noise/flicker. If WebGL2 is unavailable or the context is
   repeatedly lost, the site degrades to a CSS-effects tier, then plain
-  DOM. Text selection by mouse is the one thing shader mode gives up —
+  DOM. Touch devices default to the CSS tier (native scrolling, zoom,
+  and tap targets); the full shader stays one tap away in `/settings`.
+  Text selection by mouse is the one thing shader mode gives up —
   `effects off` is always one command away.
 
 ## Develop
