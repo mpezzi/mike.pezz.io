@@ -74,7 +74,7 @@ describe("Settings keyboard control", () => {
     const glow = sliderFor("glow");
     await user.click(glow);
     await user.keyboard("l");
-    expect(glow.value).toBe("0.75"); // green-phosphor glow default 0.7 + 0.05
+    expect(glow.value).toBe("0.5"); // baseline glow 0.45 + 0.05 (gruvbox has no override)
   });
 
   it("persists adjustments to the settings store", async () => {

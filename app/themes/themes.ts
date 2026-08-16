@@ -416,7 +416,7 @@ export const THEMES: readonly TerminalTheme[] = [
   solarizedLight,
 ];
 
-export const DEFAULT_DARK_THEME: ThemeId = "green-phosphor";
+export const DEFAULT_DARK_THEME: ThemeId = "gruvbox-dark";
 export const DEFAULT_LIGHT_THEME: ThemeId = "catppuccin-latte";
 export const THEME_STORAGE_KEY = "pezz.theme";
 

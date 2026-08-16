@@ -14,17 +14,17 @@
   font-display: swap;
 }
 
-/* Default theme (green phosphor) so first paint is styled before JS. */
+/* Default theme (gruvbox-dark) so first paint is styled before JS. */
 :root {
-  --term-bg: #0a0f0a;
-  --term-fg: #33ff33;
-  --term-cursor: #33ff33;
-  --term-selection: #1c4a1c;
-  --term-accent: #66ff66;
-  --term-link: #99ff99;
-  --term-error: #ff5555;
-  --term-dim: #1f9e1f;
-  --term-phosphor: #33ff33;
+  --term-bg: #282828;
+  --term-fg: #ebdbb2;
+  --term-cursor: #ebdbb2;
+  --term-selection: #504945;
+  --term-accent: #fe8019;
+  --term-link: #83a598;
+  --term-error: #fb4934;
+  --term-dim: #928374;
+  --term-phosphor: #ebdbb2;
   --term-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --crt-scanline: 0.4;
   --crt-glow: 0.45;

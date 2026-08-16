@@ -22,10 +22,10 @@ beforeEach(() => {
 });
 
 describe("ThemeProvider", () => {
-  it("defaults to green phosphor and applies css vars + data attribute", () => {
+  it("defaults to gruvbox-dark and applies css vars + data attribute", () => {
     renderWithApp(<ThemeHarness />);
-    expect(screen.getByTestId("theme-id")).toHaveTextContent("green-phosphor");
-    expect(document.documentElement.dataset.theme).toBe("green-phosphor");
+    expect(screen.getByTestId("theme-id")).toHaveTextContent("gruvbox-dark");
+    expect(document.documentElement.dataset.theme).toBe("gruvbox-dark");
     expect(document.documentElement.style.getPropertyValue("--term-bg")).not.toBe("");
   });
 
