@@ -28,14 +28,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Typecheck first: it runs react-router typegen, which generates the
+      # .react-router/types that ESLint's type-aware rules need.
+      - name: Typecheck
+        run: pnpm typecheck
+
       - name: Lint
         run: pnpm lint
 
       - name: Format check
         run: pnpm format:check
-
-      - name: Typecheck
-        run: pnpm typecheck
 
       - name: Test (with coverage thresholds)
         run: pnpm coverage
