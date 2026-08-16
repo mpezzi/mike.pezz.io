@@ -13,7 +13,7 @@ This site is a terminal. ls around, cat things, break nothing.
 export const CONTACT_TXT = `# contact
 email:    mike@pezz.io
 github:   https://github.com/mpezzi
-linkedin: https://www.linkedin.com/in/mikepezzi
+linkedin: https://www.linkedin.com/in/mpezzi/
 web:      https://mike.pezz.io
 source:   https://github.com/mpezzi/mike.pezz.io
 `;

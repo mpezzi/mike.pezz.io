@@ -33,16 +33,17 @@ export function isEffectParamName(name: string): name is EffectParamName {
   return (EFFECT_PARAM_NAMES as readonly string[]).includes(name);
 }
 
+/** Clamp to [0, 1] and round to 2 decimals (kills float drift from ±0.05 stepping). */
 export function clampParam(value: number): number {
   if (Number.isNaN(value)) return 0;
-  return Math.min(1, Math.max(0, value));
+  return Math.round(Math.min(1, Math.max(0, value)) * 100) / 100;
 }
 
 export type EffectPresetName = "full" | "static" | "off";
 
 /** Baseline params used when a theme provides no overrides. */
 export const DEFAULT_PARAMS: EffectParams = {
-  curvature: 0.35,
+  curvature: 0.1,
   aberration: 0.25,
   glow: 0.45,
   scanline: 0.4,

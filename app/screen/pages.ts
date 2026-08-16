@@ -131,8 +131,8 @@ export function contactModel(): ScreenModel {
         ),
         line(
           text("linkedin: ", { fg: "dim" }),
-          link("linkedin.com/in/mikepezzi", "linkedin", {
-            href: "https://www.linkedin.com/in/mikepezzi",
+          link("linkedin.com/in/mpezzi", "linkedin", {
+            href: "https://www.linkedin.com/in/mpezzi/",
           }),
         ),
         line(

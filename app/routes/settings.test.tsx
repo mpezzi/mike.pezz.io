@@ -7,8 +7,8 @@ import { Prompt } from "~/components/terminal/Prompt";
 import { renderWithApp } from "~/test/utils";
 import Settings from "./settings";
 
-// Green phosphor (the default theme) sets curvature to 0.45.
-const CURVATURE_DEFAULT = 0.45;
+// Baseline curvature from DEFAULT_PARAMS (no theme override).
+const CURVATURE_DEFAULT = 0.1;
 
 function sliderFor(name: string): HTMLInputElement {
   const el: unknown = screen.getByLabelText(new RegExp(name));
@@ -28,9 +28,9 @@ describe("Settings keyboard control", () => {
     const first = EFFECT_PARAM_NAMES[0]!; // curvature, selected by default
 
     await user.keyboard("l");
-    expect(sliderFor(first).value).toBe(String(CURVATURE_DEFAULT + 0.05));
+    expect(sliderFor(first).value).toBe("0.15");
     await user.keyboard("{ArrowRight}");
-    expect(sliderFor(first).value).toBe(String(CURVATURE_DEFAULT + 0.1));
+    expect(sliderFor(first).value).toBe("0.2");
     await user.keyboard("h");
     await user.keyboard("{ArrowLeft}");
     expect(sliderFor(first).value).toBe(String(CURVATURE_DEFAULT));
@@ -40,7 +40,7 @@ describe("Settings keyboard control", () => {
     const user = userEvent.setup();
     renderWithApp(<Settings />, { path: "/settings" });
     await user.keyboard("{Shift>}l{/Shift}");
-    expect(sliderFor(EFFECT_PARAM_NAMES[0]!).value).toBe(String(CURVATURE_DEFAULT + 0.1));
+    expect(sliderFor(EFFECT_PARAM_NAMES[0]!).value).toBe("0.2");
   });
 
   it("j/k and arrows move the selection between rows", async () => {

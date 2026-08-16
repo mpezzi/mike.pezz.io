@@ -33,7 +33,7 @@ const greenPhosphor: TerminalTheme = {
     ],
   },
   phosphorTint: "#33ff33",
-  effectDefaults: { glow: 0.7, tintAmount: 0.55, scanline: 0.55, curvature: 0.45 },
+  effectDefaults: { glow: 0.7, tintAmount: 0.55, scanline: 0.55 },
 };
 
 const amberPhosphor: TerminalTheme = {
@@ -69,7 +69,7 @@ const amberPhosphor: TerminalTheme = {
     ],
   },
   phosphorTint: "#ffb000",
-  effectDefaults: { glow: 0.65, tintAmount: 0.55, scanline: 0.55, curvature: 0.45 },
+  effectDefaults: { glow: 0.65, tintAmount: 0.55, scanline: 0.55 },
 };
 
 const monoWhite: TerminalTheme = {
@@ -105,7 +105,7 @@ const monoWhite: TerminalTheme = {
     ],
   },
   phosphorTint: "#dcdcdc",
-  effectDefaults: { glow: 0.5, tintAmount: 0.2, scanline: 0.5, curvature: 0.45 },
+  effectDefaults: { glow: 0.5, tintAmount: 0.2, scanline: 0.5 },
 };
 
 const catppuccinMocha: TerminalTheme = {

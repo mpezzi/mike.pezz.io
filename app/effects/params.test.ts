@@ -16,6 +16,11 @@ describe("clampParam", () => {
     expect(clampParam(2)).toBe(1);
     expect(clampParam(Number.NaN)).toBe(0);
   });
+
+  it("rounds to 2 decimals so ±0.05 steps never drift", () => {
+    expect(clampParam(0.1 + 0.05)).toBe(0.15);
+    expect(clampParam(0.123456)).toBe(0.12);
+  });
 });
 
 describe("param names", () => {
