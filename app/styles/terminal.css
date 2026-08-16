@@ -291,6 +291,35 @@ button.term-button[data-active="true"] {
   color: var(--term-accent);
 }
 
+/* Theme menu: vertical, keyboard-navigable list of theme buttons. */
+.term-theme-menu {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  max-width: 44rem;
+}
+
+.term-theme-menu li {
+  margin: 0.15rem 0;
+}
+
+.term-theme-menu button.term-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  white-space: pre;
+}
+
+.term-theme-menu button.term-button[data-active="true"] {
+  border-color: var(--term-accent);
+}
+
+.term-theme-menu li[data-selected="true"] button.term-button {
+  background: color-mix(in srgb, var(--term-selection) 45%, transparent);
+  color: var(--term-accent);
+}
+
 /* Visually hidden but screen-reader accessible (canvas mode DOM mirror). */
 .term-sr-layer {
   position: absolute;

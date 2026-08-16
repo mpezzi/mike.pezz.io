@@ -63,15 +63,11 @@ describe("Settings keyboard control", () => {
     expect(sliderFor(EFFECT_PARAM_NAMES[0]!)).toHaveFocus();
   });
 
-  it("selection is clamped at both ends", async () => {
+  it("selection is clamped at the top", async () => {
     const user = userEvent.setup();
     renderWithApp(<Settings />, { path: "/settings" });
     await user.keyboard("kkk");
     expect(sliderFor(EFFECT_PARAM_NAMES[0]!)).toHaveFocus();
-    for (let i = 0; i < EFFECT_PARAM_NAMES.length + 3; i++) await user.keyboard("j");
-    expect(
-      sliderFor(EFFECT_PARAM_NAMES[EFFECT_PARAM_NAMES.length - 1]!),
-    ).toHaveFocus();
   });
 
   it("clicking a slider selects its row for h/l", async () => {
@@ -93,6 +89,50 @@ describe("Settings keyboard control", () => {
     expect(stored.overrides?.[EFFECT_PARAM_NAMES[0]!]).toBeCloseTo(
       CURVATURE_DEFAULT + 0.05,
     );
+  });
+
+  it("j continues past the params to the rendering-mode row; h/l cycle the mode", async () => {
+    const user = userEvent.setup();
+    renderWithApp(<Settings />, { path: "/settings" });
+    for (const _name of EFFECT_PARAM_NAMES) await user.keyboard("j");
+    // jsdom has no WebGL, so the resolved starting mode is "css".
+    expect(screen.getByRole("button", { name: "css" })).toHaveFocus();
+    await user.keyboard("l");
+    expect(screen.getByRole("button", { name: "off" })).toHaveAttribute(
+      "data-active",
+      "true",
+    );
+    await user.keyboard("h");
+    expect(screen.getByRole("button", { name: "css" })).toHaveAttribute(
+      "data-active",
+      "true",
+    );
+  });
+
+  it("j/k reach the theme menu and Enter selects the focused theme", async () => {
+    const user = userEvent.setup();
+    renderWithApp(<Settings />, { path: "/settings" });
+    // Params + mode row, then into the theme list (first theme).
+    for (let i = 0; i < EFFECT_PARAM_NAMES.length + 1; i++) await user.keyboard("j");
+    expect(screen.getByRole("button", { name: /green-phosphor/ })).toHaveFocus();
+    // Move down to dracula (8th theme: index 7) and select it with Enter.
+    for (let i = 0; i < 7; i++) await user.keyboard("j");
+    const dracula = screen.getByRole("button", { name: /dracula/ });
+    expect(dracula).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(dracula).toHaveAttribute("data-active", "true");
+    expect(window.localStorage.getItem("pezz.theme")).toBe("dracula");
+    expect(document.documentElement.dataset.theme).toBe("dracula");
+  });
+
+  it("selection clamps at the last theme and k walks back up to the params", async () => {
+    const user = userEvent.setup();
+    renderWithApp(<Settings />, { path: "/settings" });
+    const totalRows = EFFECT_PARAM_NAMES.length + 1 + 11;
+    for (let i = 0; i < totalRows + 3; i++) await user.keyboard("j");
+    expect(screen.getByRole("button", { name: /solarized-light/ })).toHaveFocus();
+    for (let i = 0; i < totalRows; i++) await user.keyboard("k");
+    expect(sliderFor(EFFECT_PARAM_NAMES[0]!)).toHaveFocus();
   });
 
   it("does not hijack typing in the shell prompt", async () => {
