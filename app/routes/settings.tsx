@@ -28,11 +28,12 @@ const KEYS_HINT =
 type SettingsRow =
   | { kind: "param"; name: EffectParamName }
   | { kind: "mode" }
-  | { kind: "theme"; id: ThemeId };
+  | { kind: "theme"; id: ThemeId | "auto" };
 
 const ROWS: SettingsRow[] = [
   ...EFFECT_PARAM_NAMES.map((name): SettingsRow => ({ kind: "param", name })),
   { kind: "mode" },
+  { kind: "theme", id: "auto" },
   ...THEMES.map((t): SettingsRow => ({ kind: "theme", id: t.id })),
 ];
 
@@ -42,7 +43,7 @@ function bar(value: number, width = 10): string {
 }
 
 export default function Settings() {
-  const { theme, setTheme } = useTheme();
+  const { theme, preference, setTheme, setAuto } = useTheme();
   const effects = useEffects();
   const [selected, setSelected] = useState(0);
   const rowRefs = useRef<(HTMLElement | null)[]>([]);
@@ -143,11 +144,24 @@ export default function Settings() {
         text(" "),
       ]),
     );
+    const autoRowIndex = modeIndex + 1;
+    const autoNode = line(
+      marker(autoRowIndex),
+      text(preference === "auto" ? "* " : "  ", { fg: "accent" }),
+      text(
+        "auto".padEnd(18),
+        autoRowIndex === selected ? { fg: "accent", bold: true } : {},
+      ),
+      text(
+        ` follow system light/dark${preference === "auto" ? ` (now: ${theme.id})` : ""}`,
+        { fg: "dim" },
+      ),
+    );
     const themeNodes = THEMES.map((t, i): ScreenNode => {
-      const rowIndex = modeIndex + 1 + i;
+      const rowIndex = autoRowIndex + 1 + i;
       return line(
         marker(rowIndex),
-        text(t.id === theme.id ? "* " : "  ", { fg: "accent" }),
+        text(preference === t.id ? "* " : "  ", { fg: "accent" }),
         text(t.id.padEnd(18), rowIndex === selected ? { fg: "accent", bold: true } : {}),
         text(` ${t.mode}  ${t.label}`, { fg: "dim" }),
       );
@@ -164,6 +178,7 @@ export default function Settings() {
         modeNode,
         blank(),
         heading(2, "theme"),
+        autoNode,
         ...themeNodes,
         blank(),
         line(text(KEYS_HINT, { fg: "dim" })),
@@ -176,12 +191,20 @@ export default function Settings() {
         ),
       ],
     };
-  }, [effects.params, effects.settings.overrides, effects.mode, theme.id, selected]);
+  }, [
+    effects.params,
+    effects.settings.overrides,
+    effects.mode,
+    theme.id,
+    preference,
+    selected,
+  ]);
   useRegisterModel(model);
 
   const modeRowIndex = EFFECT_PARAM_NAMES.length;
+  const autoRow = modeRowIndex + 1;
   const themeRowIndex = (id: ThemeId) =>
-    modeRowIndex + 1 + THEMES.findIndex((t) => t.id === id);
+    autoRow + 1 + THEMES.findIndex((t) => t.id === id);
 
   return (
     <div>
@@ -267,6 +290,27 @@ export default function Settings() {
 
       <h2>theme</h2>
       <ul className="term-theme-menu" aria-label="theme">
+        <li data-selected={selected === autoRow}>
+          <button
+            type="button"
+            className="term-button"
+            data-active={preference === "auto"}
+            ref={(el) => {
+              rowRefs.current[autoRow] = el;
+            }}
+            onFocus={() => setSelected(autoRow)}
+            onClick={setAuto}
+          >
+            <span className="term-accent">{selected === autoRow ? "▸ " : "  "}</span>
+            <span>{preference === "auto" ? "* " : "  "}</span>
+            {"auto".padEnd(18)}
+            <span className="term-dim">
+              {"  "}
+              follow system light/dark
+              {preference === "auto" ? ` · now: ${theme.id}` : ""}
+            </span>
+          </button>
+        </li>
         {THEMES.map((t) => {
           const rowIndex = themeRowIndex(t.id);
           return (
@@ -274,7 +318,7 @@ export default function Settings() {
               <button
                 type="button"
                 className="term-button"
-                data-active={theme.id === t.id}
+                data-active={preference === t.id}
                 ref={(el) => {
                   rowRefs.current[rowIndex] = el;
                 }}
@@ -282,7 +326,7 @@ export default function Settings() {
                 onClick={() => setTheme(t.id)}
               >
                 <span className="term-accent">{selected === rowIndex ? "▸ " : "  "}</span>
-                <span>{theme.id === t.id ? "* " : "  "}</span>
+                <span>{preference === t.id ? "* " : "  "}</span>
                 {t.id.padEnd(18)}
                 <span className="term-dim">
                   {"  "}

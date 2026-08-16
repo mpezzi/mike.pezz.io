@@ -29,6 +29,19 @@ describe("theme", () => {
     expect(run("theme toggle").effects).toEqual([{ type: "toggleThemeMode" }]);
   });
 
+  it("theme auto emits the auto effect", () => {
+    expect(run("theme auto").effects).toEqual([{ type: "setThemeAuto" }]);
+  });
+
+  it("theme ls stars auto when the preference is auto", () => {
+    const result = run("theme ls", fixtureEnv({ themeAuto: true }));
+    const table = result.output[0];
+    if (table?.type !== "table") throw new Error("expected table");
+    const starred = table.rows.filter((r) => r[0]?.text === "*");
+    expect(starred).toHaveLength(1);
+    expect(starred[0]?.[1]?.text).toBe("auto");
+  });
+
   it("rejects unknown themes", () => {
     expect(run("theme hotdog-stand").exitCode).toBe(1);
   });

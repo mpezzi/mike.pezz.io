@@ -37,6 +37,7 @@ export function fixtureEnv(overrides: Partial<ShellEnv> = {}): ShellEnv {
     host: "pezz.io",
     columns: 80,
     themeId: "green-phosphor",
+    themeAuto: false,
     effectsMode: "webgl",
     crt: { resolved: { ...DEFAULT_PARAMS }, overrides: {}, preset: "full" },
     uptimeMs: 1000,

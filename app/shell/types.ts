@@ -11,6 +11,8 @@ export interface ShellEnv {
   host: string;
   columns: number;
   themeId: ThemeId;
+  /** True when the theme preference is "auto" (follow the system scheme). */
+  themeAuto: boolean;
   effectsMode: EffectsMode;
   crt: {
     resolved: EffectParams;
@@ -24,6 +26,7 @@ export interface ShellEnv {
 export type ShellEffect =
   | { type: "navigate"; to: string }
   | { type: "setTheme"; themeId: ThemeId }
+  | { type: "setThemeAuto" }
   | { type: "toggleThemeMode" }
   | { type: "clear" }
   | { type: "openExternal"; url: string }

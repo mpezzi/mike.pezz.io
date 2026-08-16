@@ -18,7 +18,7 @@ const NAV = [
 
 export function TerminalFrame({ children }: { children: React.ReactNode }) {
   const shell = useShell();
-  const { theme, toggleMode } = useTheme();
+  const { theme, preference, toggleMode } = useTheme();
   const effects = useEffects();
   const promptRef = useRef<PromptHandle>(null);
   const mainRef = useRef<HTMLElement>(null);
@@ -103,7 +103,7 @@ export function TerminalFrame({ children }: { children: React.ReactNode }) {
         <footer className="term-statusbar">
           <span>
             <button type="button" onClick={toggleMode}>
-              [theme: {theme.id}]
+              [theme: {preference === "auto" ? `auto·${theme.id}` : theme.id}]
             </button>{" "}
             <button
               type="button"

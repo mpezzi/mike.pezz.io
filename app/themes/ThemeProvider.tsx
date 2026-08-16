@@ -9,51 +9,73 @@ import {
 } from "react";
 import { applyThemeCssVars } from "./css";
 import {
-  DEFAULT_DARK_THEME,
-  DEFAULT_LIGHT_THEME,
   getTheme,
-  isThemeId,
+  isThemePreference,
+  resolveThemePreference,
   THEME_STORAGE_KEY,
   THEMES,
   toggledTheme,
+  type ThemePreference,
 } from "./themes";
 import type { TerminalTheme, ThemeId } from "./types";
 
 interface ThemeContextValue {
   theme: TerminalTheme;
+  /** "auto" (follow the system scheme) or the explicitly chosen id. */
+  preference: ThemePreference;
   setTheme: (id: ThemeId) => void;
+  setAuto: () => void;
   toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function initialThemeId(): ThemeId {
-  if (typeof window === "undefined") return DEFAULT_DARK_THEME;
+const LIGHT_QUERY = "(prefers-color-scheme: light)";
+
+function initialPreference(): ThemePreference {
+  if (typeof window === "undefined") return "auto";
   const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
-  if (stored !== null && isThemeId(stored)) return stored;
-  if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-    return DEFAULT_LIGHT_THEME;
-  }
-  return DEFAULT_DARK_THEME;
+  if (stored !== null && isThemePreference(stored)) return stored;
+  return "auto";
+}
+
+function initialPrefersLight(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia(LIGHT_QUERY).matches;
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [themeId, setThemeId] = useState<ThemeId>(initialThemeId);
-  const theme = getTheme(themeId);
+  const [preference, setPreference] = useState<ThemePreference>(initialPreference);
+  const [prefersLight, setPrefersLight] = useState(initialPrefersLight);
+  const theme = getTheme(resolveThemePreference(preference, prefersLight));
+
+  // In auto mode the theme follows the system scheme live.
+  useEffect(() => {
+    const media = window.matchMedia(LIGHT_QUERY);
+    const onChange = (e: MediaQueryListEvent) => setPrefersLight(e.matches);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     applyThemeCssVars(theme, document.documentElement);
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme.id);
-  }, [theme]);
+    window.localStorage.setItem(THEME_STORAGE_KEY, preference);
+  }, [theme, preference]);
 
-  const setTheme = useCallback((id: ThemeId) => setThemeId(id), []);
+  const setTheme = useCallback((id: ThemeId) => setPreference(id), []);
+  const setAuto = useCallback(() => setPreference("auto"), []);
+  // Toggling picks a concrete theme (an explicit choice), based on
+  // whatever is currently resolved.
   const toggleMode = useCallback(() => {
-    setThemeId((current) => toggledTheme(getTheme(current)).id);
-  }, []);
+    setPreference(
+      (current) =>
+        toggledTheme(getTheme(resolveThemePreference(current, prefersLight))).id,
+    );
+  }, [prefersLight]);
 
   const value = useMemo(
-    () => ({ theme, setTheme, toggleMode }),
-    [theme, setTheme, toggleMode],
+    () => ({ theme, preference, setTheme, setAuto, toggleMode }),
+    [theme, preference, setTheme, setAuto, toggleMode],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
@@ -66,9 +88,10 @@ export function useTheme(): ThemeContextValue {
 }
 
 /**
- * Inline no-flash script for <head>: applies the stored (or system) theme's
- * background/foreground before first paint. The full palette is applied by
- * ThemeProvider on mount.
+ * Inline no-flash script for <head>: applies the stored theme's (or, for
+ * "auto"/nothing stored, the system-scheme solarized default's)
+ * background/foreground before first paint. The full palette is applied
+ * by ThemeProvider on mount.
  */
 export function themeNoFlashScript(): string {
   const minimal = Object.fromEntries(
@@ -77,11 +100,13 @@ export function themeNoFlashScript(): string {
       [t.colors.background, t.colors.foreground, t.mode] as const,
     ]),
   );
+  const autoDark = JSON.stringify(resolveThemePreference("auto", false));
+  const autoLight = JSON.stringify(resolveThemePreference("auto", true));
   return (
     "(function(){try{" +
     `var m=${JSON.stringify(minimal)};` +
     `var k=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});` +
-    `var d=k&&m[k]?k:(matchMedia("(prefers-color-scheme: light)").matches?${JSON.stringify(DEFAULT_LIGHT_THEME)}:${JSON.stringify(DEFAULT_DARK_THEME)});` +
+    `var d=k&&m[k]?k:(matchMedia(${JSON.stringify(LIGHT_QUERY)}).matches?${autoLight}:${autoDark});` +
     "var t=m[d];var r=document.documentElement;" +
     'r.dataset.theme=d;r.style.setProperty("--term-bg",t[0]);' +
     'r.style.setProperty("--term-fg",t[1]);r.style.colorScheme=t[2];' +

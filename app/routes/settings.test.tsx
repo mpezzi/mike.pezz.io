@@ -110,8 +110,10 @@ describe("Settings keyboard control", () => {
   it("j/k reach the theme menu and Enter selects the focused theme", async () => {
     const user = userEvent.setup();
     renderWithApp(<Settings />, { path: "/settings" });
-    // Params + mode row, then into the theme list (first theme).
+    // Params + mode row, then into the theme list: the auto row comes first.
     for (let i = 0; i < EFFECT_PARAM_NAMES.length + 1; i++) await user.keyboard("j");
+    expect(screen.getByRole("button", { name: /auto/ })).toHaveFocus();
+    await user.keyboard("j");
     expect(screen.getByRole("button", { name: /green-phosphor/ })).toHaveFocus();
     // Move down to dracula (8th theme: index 7) and select it with Enter.
     for (let i = 0; i < 7; i++) await user.keyboard("j");
@@ -123,10 +125,24 @@ describe("Settings keyboard control", () => {
     expect(document.documentElement.dataset.theme).toBe("dracula");
   });
 
+  it("Enter on the auto row stores the auto preference", async () => {
+    const user = userEvent.setup();
+    window.localStorage.setItem("pezz.theme", "dracula");
+    renderWithApp(<Settings />, { path: "/settings" });
+    for (let i = 0; i < EFFECT_PARAM_NAMES.length + 1; i++) await user.keyboard("j");
+    const auto = screen.getByRole("button", { name: /auto/ });
+    expect(auto).toHaveFocus();
+    await user.keyboard("{Enter}");
+    expect(auto).toHaveAttribute("data-active", "true");
+    expect(window.localStorage.getItem("pezz.theme")).toBe("auto");
+    // jsdom's matchMedia stub reports a dark scheme.
+    expect(document.documentElement.dataset.theme).toBe("solarized-dark");
+  });
+
   it("selection clamps at the last theme and k walks back up to the params", async () => {
     const user = userEvent.setup();
     renderWithApp(<Settings />, { path: "/settings" });
-    const totalRows = EFFECT_PARAM_NAMES.length + 1 + 11;
+    const totalRows = EFFECT_PARAM_NAMES.length + 1 + 12; // params, mode, auto + 11 themes
     for (let i = 0; i < totalRows + 3; i++) await user.keyboard("j");
     expect(screen.getByRole("button", { name: /solarized-light/ })).toHaveFocus();
     for (let i = 0; i < totalRows; i++) await user.keyboard("k");

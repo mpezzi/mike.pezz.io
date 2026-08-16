@@ -53,7 +53,7 @@ MDX files in `app/content/{blog,work}/` are the single source per post: compiled
 
 ### Theming
 
-`app/themes/themes.ts` defines all palettes + per-theme CRT effect defaults and phosphor tint. DOM mode reads CSS custom properties applied at runtime (`css.ts`); the engine imports theme objects directly. `themeNoFlashScript()` is inlined into `<head>` in `root.tsx` so prerendered pages paint with the stored theme. Light/dark toggle switches within a theme `family`, else falls to `DEFAULT_LIGHT_THEME`/`DEFAULT_DARK_THEME`.
+`app/themes/themes.ts` defines all palettes + per-theme CRT effect defaults and phosphor tint. The stored value (`pezz.theme`) is a `ThemePreference`: `"auto"` (the default — follows the system scheme live, resolving to the solarized pair via `resolveThemePreference`) or an explicit `ThemeId` which always wins. `theme auto` / the settings menu's auto row return to following the system. DOM mode reads CSS custom properties applied at runtime (`css.ts`); the engine imports theme objects directly. `themeNoFlashScript()` is inlined into `<head>` in `root.tsx` (and `global.css` carries solarized dark/light first-paint blocks) so prerendered pages paint correctly before JS. Light/dark toggle switches within a theme `family`, else falls to `DEFAULT_LIGHT_THEME`/`DEFAULT_DARK_THEME` — and always stores an explicit theme.
 
 ### Keyboard model
 

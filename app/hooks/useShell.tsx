@@ -63,7 +63,7 @@ function historyStorage() {
 export function ShellProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { theme, setTheme, toggleMode } = useTheme();
+  const { theme, preference, setTheme, setAuto, toggleMode } = useTheme();
   const effects = useEffects();
 
   const vfs = useMemo(() => buildSiteVfs(blogEntries, workEntries), []);
@@ -94,6 +94,7 @@ export function ShellProvider({ children }: { children: ReactNode }) {
       host: "pezz.io",
       columns: 80,
       themeId: theme.id,
+      themeAuto: preference === "auto",
       effectsMode: effects.mode,
       crt: {
         resolved: effects.params,
@@ -102,7 +103,15 @@ export function ShellProvider({ children }: { children: ReactNode }) {
       },
       uptimeMs: Date.now() - sessionStartMs,
     }),
-    [cwd, theme.id, effects.mode, effects.params, effects.settings, sessionStartMs],
+    [
+      cwd,
+      theme.id,
+      preference,
+      effects.mode,
+      effects.params,
+      effects.settings,
+      sessionStartMs,
+    ],
   );
 
   const applyEffects = useCallback(
@@ -114,6 +123,9 @@ export function ShellProvider({ children }: { children: ReactNode }) {
             break;
           case "setTheme":
             setTheme(effect.themeId);
+            break;
+          case "setThemeAuto":
+            setAuto();
             break;
           case "toggleThemeMode":
             toggleMode();
@@ -139,7 +151,7 @@ export function ShellProvider({ children }: { children: ReactNode }) {
         }
       }
     },
-    [navigate, setTheme, toggleMode, effects],
+    [navigate, setTheme, setAuto, toggleMode, effects],
   );
 
   const run = useCallback(

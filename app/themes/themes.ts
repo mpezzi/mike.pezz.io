@@ -416,9 +416,15 @@ export const THEMES: readonly TerminalTheme[] = [
   solarizedLight,
 ];
 
-export const DEFAULT_DARK_THEME: ThemeId = "gruvbox-dark";
-export const DEFAULT_LIGHT_THEME: ThemeId = "catppuccin-latte";
+export const DEFAULT_DARK_THEME: ThemeId = "solarized-dark";
+export const DEFAULT_LIGHT_THEME: ThemeId = "solarized-light";
 export const THEME_STORAGE_KEY = "pezz.theme";
+
+/**
+ * What the user stored: a specific theme, or "auto" (the default) which
+ * follows the system light/dark preference using the solarized pair.
+ */
+export type ThemePreference = ThemeId | "auto";
 
 const byId = new Map(THEMES.map((t) => [t.id, t]));
 
@@ -430,6 +436,21 @@ export function getTheme(id: ThemeId): TerminalTheme {
 
 export function isThemeId(id: string): id is ThemeId {
   return byId.has(id as ThemeId);
+}
+
+export function isThemePreference(value: string): value is ThemePreference {
+  return value === "auto" || isThemeId(value);
+}
+
+/** Resolve a preference to a concrete theme id. */
+export function resolveThemePreference(
+  preference: ThemePreference,
+  prefersLight: boolean,
+): ThemeId {
+  if (preference === "auto") {
+    return prefersLight ? DEFAULT_LIGHT_THEME : DEFAULT_DARK_THEME;
+  }
+  return preference;
 }
 
 /**

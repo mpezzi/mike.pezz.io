@@ -6,11 +6,13 @@ import { THEME_STORAGE_KEY } from "./themes";
 import { themeNoFlashScript, useTheme } from "./ThemeProvider";
 
 function ThemeHarness() {
-  const { theme, setTheme, toggleMode } = useTheme();
+  const { theme, preference, setTheme, setAuto, toggleMode } = useTheme();
   return (
     <div>
       <div data-testid="theme-id">{theme.id}</div>
+      <div data-testid="preference">{preference}</div>
       <button onClick={() => setTheme("dracula")}>set-dracula</button>
+      <button onClick={setAuto}>set-auto</button>
       <button onClick={toggleMode}>toggle</button>
     </div>
   );
@@ -22,11 +24,24 @@ beforeEach(() => {
 });
 
 describe("ThemeProvider", () => {
-  it("defaults to gruvbox-dark and applies css vars + data attribute", () => {
+  it("defaults to auto, resolving to solarized-dark under a dark scheme", () => {
     renderWithApp(<ThemeHarness />);
-    expect(screen.getByTestId("theme-id")).toHaveTextContent("gruvbox-dark");
-    expect(document.documentElement.dataset.theme).toBe("gruvbox-dark");
+    expect(screen.getByTestId("preference")).toHaveTextContent("auto");
+    expect(screen.getByTestId("theme-id")).toHaveTextContent("solarized-dark");
+    expect(document.documentElement.dataset.theme).toBe("solarized-dark");
     expect(document.documentElement.style.getPropertyValue("--term-bg")).not.toBe("");
+  });
+
+  it("an explicit choice overrides auto; set-auto returns to following the system", async () => {
+    const user = userEvent.setup();
+    renderWithApp(<ThemeHarness />);
+    await user.click(screen.getByText("set-dracula"));
+    expect(screen.getByTestId("preference")).toHaveTextContent("dracula");
+    expect(window.localStorage.getItem(THEME_STORAGE_KEY)).toBe("dracula");
+    await user.click(screen.getByText("set-auto"));
+    expect(screen.getByTestId("preference")).toHaveTextContent("auto");
+    expect(screen.getByTestId("theme-id")).toHaveTextContent("solarized-dark");
+    expect(window.localStorage.getItem(THEME_STORAGE_KEY)).toBe("auto");
   });
 
   it("persists selection to localStorage and restores it", async () => {
@@ -55,7 +70,7 @@ describe("ThemeProvider", () => {
     window.matchMedia = lightStub;
     try {
       renderWithApp(<ThemeHarness />);
-      expect(screen.getByTestId("theme-id")).toHaveTextContent("catppuccin-latte");
+      expect(screen.getByTestId("theme-id")).toHaveTextContent("solarized-light");
     } finally {
       window.matchMedia = original;
     }

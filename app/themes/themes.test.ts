@@ -5,6 +5,8 @@ import {
   DEFAULT_LIGHT_THEME,
   getTheme,
   isThemeId,
+  isThemePreference,
+  resolveThemePreference,
   THEMES,
   toggledTheme,
 } from "./themes";
@@ -48,6 +50,28 @@ describe("theme definitions", () => {
   it("defaults exist and have the right modes", () => {
     expect(getTheme(DEFAULT_DARK_THEME).mode).toBe("dark");
     expect(getTheme(DEFAULT_LIGHT_THEME).mode).toBe("light");
+  });
+});
+
+describe("resolveThemePreference", () => {
+  it("auto follows the system scheme with the solarized pair", () => {
+    expect(resolveThemePreference("auto", false)).toBe("solarized-dark");
+    expect(resolveThemePreference("auto", true)).toBe("solarized-light");
+    expect(resolveThemePreference("auto", false)).toBe(DEFAULT_DARK_THEME);
+    expect(resolveThemePreference("auto", true)).toBe(DEFAULT_LIGHT_THEME);
+  });
+
+  it("an explicit theme wins regardless of the system scheme", () => {
+    expect(resolveThemePreference("dracula", true)).toBe("dracula");
+    expect(resolveThemePreference("gruvbox-light", false)).toBe("gruvbox-light");
+  });
+});
+
+describe("isThemePreference", () => {
+  it("accepts auto and theme ids, rejects junk", () => {
+    expect(isThemePreference("auto")).toBe(true);
+    expect(isThemePreference("nord")).toBe(true);
+    expect(isThemePreference("hotdog-stand")).toBe(false);
   });
 });
 
