@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
+import { REPO_URL } from "~/lib/seo";
 import { useEffects } from "~/hooks/useEffectsMode";
 import { useShell } from "~/hooks/useShell";
 import { useTheme } from "~/themes/ThemeProvider";
@@ -119,7 +120,12 @@ export function TerminalFrame({ children }: { children: React.ReactNode }) {
               [effects: {effects.mode}]
             </button>
           </span>
-          <span>help · man psh · tab completes</span>
+          <span>
+            help · man psh · tab completes ·{" "}
+            <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+              [src]
+            </a>
+          </span>
         </footer>
       </div>
     </>

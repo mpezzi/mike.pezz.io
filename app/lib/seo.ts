@@ -1,5 +1,6 @@
 export const SITE_URL = "https://mike.pezz.io";
 export const SITE_NAME = "Mike Pezzi";
+export const REPO_URL = "https://github.com/mpezzi/mike.pezz.io";
 
 export interface MetaInput {
   title: string;

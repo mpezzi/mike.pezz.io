@@ -1,4 +1,5 @@
 import type { ContentEntry } from "~/content/schema";
+import { REPO_URL } from "~/lib/seo";
 import { formatIsoDate } from "~/lib/format";
 import { blank, block, heading, line, link, list, pre, rule, text } from "./builders";
 import type { ScreenModel, ScreenNode } from "./model";
@@ -55,6 +56,10 @@ export function homeModel(latestPosts: ContentEntry[]): ScreenModel {
       text("theme ls", { fg: "accent" }),
       text(" and ", { fg: "dim" }),
       text("crt set curvature 0.8", { fg: "accent" }),
+    ),
+    line(
+      text("source: ", { fg: "dim" }),
+      link("github.com/mpezzi/mike.pezz.io", "repo", { href: REPO_URL }),
     ),
   ];
   return { title: "home", nodes };
@@ -118,7 +123,7 @@ export function contactModel(): ScreenModel {
       block([
         line(
           text("email:    ", { fg: "dim" }),
-          link("michael@reactiv.ai", "email", { href: "mailto:michael@reactiv.ai" }),
+          link("mike@pezz.io", "email", { href: "mailto:mike@pezz.io" }),
         ),
         line(
           text("github:   ", { fg: "dim" }),
@@ -129,6 +134,10 @@ export function contactModel(): ScreenModel {
           link("linkedin.com/in/mikepezzi", "linkedin", {
             href: "https://www.linkedin.com/in/mikepezzi",
           }),
+        ),
+        line(
+          text("source:   ", { fg: "dim" }),
+          link("github.com/mpezzi/mike.pezz.io", "source", { href: REPO_URL }),
         ),
       ]),
       blank(),

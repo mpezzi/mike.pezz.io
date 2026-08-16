@@ -11,10 +11,11 @@ This site is a terminal. ls around, cat things, break nothing.
 `;
 
 export const CONTACT_TXT = `# contact
-email:    michael@reactiv.ai
+email:    mike@pezz.io
 github:   https://github.com/mpezzi
 linkedin: https://www.linkedin.com/in/mikepezzi
 web:      https://mike.pezz.io
+source:   https://github.com/mpezzi/mike.pezz.io
 `;
 
 export const PLAN_TXT = `1. build terminal website
