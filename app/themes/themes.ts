@@ -33,7 +33,7 @@ const greenPhosphor: TerminalTheme = {
     ],
   },
   phosphorTint: "#33ff33",
-  effectDefaults: { glow: 0.7, tintAmount: 0.55, scanline: 0.55 },
+  effectDefaults: { glow: 0.7, tintAmount: 0.55 },
 };
 
 const amberPhosphor: TerminalTheme = {
@@ -69,7 +69,7 @@ const amberPhosphor: TerminalTheme = {
     ],
   },
   phosphorTint: "#ffb000",
-  effectDefaults: { glow: 0.65, tintAmount: 0.55, scanline: 0.55 },
+  effectDefaults: { glow: 0.65, tintAmount: 0.55 },
 };
 
 const monoWhite: TerminalTheme = {
@@ -105,7 +105,7 @@ const monoWhite: TerminalTheme = {
     ],
   },
   phosphorTint: "#dcdcdc",
-  effectDefaults: { glow: 0.5, tintAmount: 0.2, scanline: 0.5 },
+  effectDefaults: { glow: 0.5, tintAmount: 0.2 },
 };
 
 const catppuccinMocha: TerminalTheme = {
@@ -179,7 +179,7 @@ const catppuccinLatte: TerminalTheme = {
     ],
   },
   phosphorTint: "#4c4f69",
-  effectDefaults: { tintAmount: 0.05, glow: 0.2, scanline: 0.25, noise: 0.15 },
+  effectDefaults: { tintAmount: 0.05, glow: 0.2, noise: 0.15 },
 };
 
 const gruvboxDark: TerminalTheme = {
@@ -253,7 +253,7 @@ const gruvboxLight: TerminalTheme = {
     ],
   },
   phosphorTint: "#3c3836",
-  effectDefaults: { tintAmount: 0.05, glow: 0.2, scanline: 0.25, noise: 0.15 },
+  effectDefaults: { tintAmount: 0.05, glow: 0.2, noise: 0.15 },
 };
 
 const dracula: TerminalTheme = {
@@ -399,7 +399,7 @@ const solarizedLight: TerminalTheme = {
     ],
   },
   phosphorTint: "#657b83",
-  effectDefaults: { tintAmount: 0.05, glow: 0.2, scanline: 0.25, noise: 0.15 },
+  effectDefaults: { tintAmount: 0.05, glow: 0.2, noise: 0.15 },
 };
 
 export const THEMES: readonly TerminalTheme[] = [

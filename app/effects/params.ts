@@ -46,7 +46,7 @@ export const DEFAULT_PARAMS: EffectParams = {
   curvature: 0.1,
   aberration: 0.25,
   glow: 0.45,
-  scanline: 0.4,
+  scanline: 0.1,
   noise: 0.25,
   vignette: 0.45,
   flicker: 0.2,

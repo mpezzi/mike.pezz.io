@@ -28,7 +28,7 @@
   --term-dim: #586e75;
   --term-phosphor: #93a1a1;
   --term-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --crt-scanline: 0.4;
+  --crt-scanline: 0.1;
   --crt-glow: 0.45;
   --crt-vignette: 0.45;
   --crt-flicker: 0.2;
