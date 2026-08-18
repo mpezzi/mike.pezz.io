@@ -69,7 +69,7 @@ const amberPhosphor: TerminalTheme = {
     ],
   },
   phosphorTint: "#ffb000",
-  effectDefaults: { glow: 0.65, tintAmount: 0.55 },
+  // No overrides: the baseline DEFAULT_PARAMS are tuned on this theme.
 };
 
 const monoWhite: TerminalTheme = {
@@ -421,10 +421,13 @@ export const DEFAULT_LIGHT_THEME: ThemeId = "solarized-light";
 export const THEME_STORAGE_KEY = "pezz.theme";
 
 /**
- * What the user stored: a specific theme, or "auto" (the default) which
- * follows the system light/dark preference using the solarized pair.
+ * What the user stored: a specific theme, or "auto" which follows the
+ * system light/dark preference using the solarized pair.
  */
 export type ThemePreference = ThemeId | "auto";
+
+/** Preference used when nothing is stored. */
+export const DEFAULT_THEME_PREFERENCE: ThemePreference = "amber-phosphor";
 
 const byId = new Map(THEMES.map((t) => [t.id, t]));
 

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { applyThemeCssVars } from "./css";
 import {
+  DEFAULT_THEME_PREFERENCE,
   getTheme,
   isThemePreference,
   resolveThemePreference,
@@ -33,10 +34,10 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 const LIGHT_QUERY = "(prefers-color-scheme: light)";
 
 function initialPreference(): ThemePreference {
-  if (typeof window === "undefined") return "auto";
+  if (typeof window === "undefined") return DEFAULT_THEME_PREFERENCE;
   const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
   if (stored !== null && isThemePreference(stored)) return stored;
-  return "auto";
+  return DEFAULT_THEME_PREFERENCE;
 }
 
 function initialPrefersLight(): boolean {
@@ -88,10 +89,10 @@ export function useTheme(): ThemeContextValue {
 }
 
 /**
- * Inline no-flash script for <head>: applies the stored theme's (or, for
- * "auto"/nothing stored, the system-scheme solarized default's)
- * background/foreground before first paint. The full palette is applied
- * by ThemeProvider on mount.
+ * Inline no-flash script for <head>: applies the stored theme's (stored
+ * "auto" resolves via the system scheme; nothing stored means the default
+ * preference) background/foreground before first paint. The full palette
+ * is applied by ThemeProvider on mount.
  */
 export function themeNoFlashScript(): string {
   const minimal = Object.fromEntries(
@@ -102,11 +103,13 @@ export function themeNoFlashScript(): string {
   );
   const autoDark = JSON.stringify(resolveThemePreference("auto", false));
   const autoLight = JSON.stringify(resolveThemePreference("auto", true));
+  const fallback = JSON.stringify(DEFAULT_THEME_PREFERENCE);
   return (
     "(function(){try{" +
     `var m=${JSON.stringify(minimal)};` +
     `var k=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});` +
-    `var d=k&&m[k]?k:(matchMedia(${JSON.stringify(LIGHT_QUERY)}).matches?${autoLight}:${autoDark});` +
+    `var p=k&&m[k]?k:(k==="auto"?"auto":${fallback});` +
+    `var d=p==="auto"?(matchMedia(${JSON.stringify(LIGHT_QUERY)}).matches?${autoLight}:${autoDark}):p;` +
     "var t=m[d];var r=document.documentElement;" +
     'r.dataset.theme=d;r.style.setProperty("--term-bg",t[0]);' +
     'r.style.setProperty("--term-fg",t[1]);r.style.colorScheme=t[2];' +

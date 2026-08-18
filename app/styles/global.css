@@ -14,41 +14,25 @@
   font-display: swap;
 }
 
-/* Default theme (auto: solarized dark/light by system scheme) so first
-   paint is styled before JS. An explicitly stored theme is applied by
-   the inline no-flash script and then ThemeProvider. */
+/* Default theme (amber-phosphor, the default preference) so first paint
+   is styled before JS. A stored preference — explicit theme or "auto" —
+   is applied by the inline no-flash script and then ThemeProvider, both
+   of which set inline styles on <html>. */
 :root {
-  --term-bg: #002b36;
-  --term-fg: #839496;
-  --term-cursor: #839496;
-  --term-selection: #073642;
-  --term-accent: #b58900;
-  --term-link: #268bd2;
-  --term-error: #dc322f;
-  --term-dim: #586e75;
-  --term-phosphor: #93a1a1;
+  --term-bg: #100b02;
+  --term-fg: #ffb000;
+  --term-cursor: #ffb000;
+  --term-selection: #4a3510;
+  --term-accent: #ffc94d;
+  --term-link: #ffd98c;
+  --term-error: #ffb000;
+  --term-dim: #a06e00;
+  --term-phosphor: #ffb000;
   --term-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --crt-scanline: 0.1;
-  --crt-glow: 0.45;
-  --crt-vignette: 0.45;
-  --crt-flicker: 0.2;
-}
-
-/* Auto default, light half (solarized-light). Overridden the moment the
-   no-flash script or ThemeProvider applies an explicit theme, because
-   both set inline styles on <html>. */
-@media (prefers-color-scheme: light) {
-  :root {
-    --term-bg: #fdf6e3;
-    --term-fg: #657b83;
-    --term-cursor: #657b83;
-    --term-selection: #eee8d5;
-    --term-accent: #b58900;
-    --term-link: #268bd2;
-    --term-error: #dc322f;
-    --term-dim: #93a1a1;
-    --term-phosphor: #657b83;
-  }
+  --crt-scanline: 0.3;
+  --crt-glow: 0.8;
+  --crt-vignette: 0.8;
+  --crt-flicker: 0.95;
 }
 
 *,

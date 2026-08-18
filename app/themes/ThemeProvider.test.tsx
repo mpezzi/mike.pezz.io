@@ -24,11 +24,11 @@ beforeEach(() => {
 });
 
 describe("ThemeProvider", () => {
-  it("defaults to auto, resolving to solarized-dark under a dark scheme", () => {
+  it("defaults to amber-phosphor when nothing is stored", () => {
     renderWithApp(<ThemeHarness />);
-    expect(screen.getByTestId("preference")).toHaveTextContent("auto");
-    expect(screen.getByTestId("theme-id")).toHaveTextContent("solarized-dark");
-    expect(document.documentElement.dataset.theme).toBe("solarized-dark");
+    expect(screen.getByTestId("preference")).toHaveTextContent("amber-phosphor");
+    expect(screen.getByTestId("theme-id")).toHaveTextContent("amber-phosphor");
+    expect(document.documentElement.dataset.theme).toBe("amber-phosphor");
     expect(document.documentElement.style.getPropertyValue("--term-bg")).not.toBe("");
   });
 
@@ -54,7 +54,8 @@ describe("ThemeProvider", () => {
     expect(screen.getByTestId("theme-id")).toHaveTextContent("dracula");
   });
 
-  it("follows prefers-color-scheme: light when nothing is stored", () => {
+  it("stored auto follows prefers-color-scheme: light", () => {
+    window.localStorage.setItem(THEME_STORAGE_KEY, "auto");
     const original = window.matchMedia.bind(window);
     const lightStub = (query: string) =>
       ({
@@ -70,6 +71,7 @@ describe("ThemeProvider", () => {
     window.matchMedia = lightStub;
     try {
       renderWithApp(<ThemeHarness />);
+      expect(screen.getByTestId("preference")).toHaveTextContent("auto");
       expect(screen.getByTestId("theme-id")).toHaveTextContent("solarized-light");
     } finally {
       window.matchMedia = original;
