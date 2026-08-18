@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -33,32 +34,48 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const LIGHT_QUERY = "(prefers-color-scheme: light)";
 
+/** Client-only: reads the stored preference. Called from the mount effect. */
 function initialPreference(): ThemePreference {
-  if (typeof window === "undefined") return DEFAULT_THEME_PREFERENCE;
   const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
   if (stored !== null && isThemePreference(stored)) return stored;
   return DEFAULT_THEME_PREFERENCE;
 }
 
-function initialPrefersLight(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia(LIGHT_QUERY).matches;
-}
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [preference, setPreference] = useState<ThemePreference>(initialPreference);
-  const [prefersLight, setPrefersLight] = useState(initialPrefersLight);
+  // The first client render must match the prerendered HTML, so it uses the
+  // same deterministic defaults as the server; the stored preference and
+  // system scheme are external browser state synced once after mount.
+  const [preference, setPreference] = useState<ThemePreference>(DEFAULT_THEME_PREFERENCE);
+  const [prefersLight, setPrefersLight] = useState(false);
+  const hydrated = useRef(false);
   const theme = getTheme(resolveThemePreference(preference, prefersLight));
 
-  // In auto mode the theme follows the system scheme live.
   useEffect(() => {
+    const stored = initialPreference();
     const media = window.matchMedia(LIGHT_QUERY);
+    // Apply the real palette here rather than waiting for the effect below:
+    // when the stored state equals the defaults the setState calls bail out
+    // and that effect never re-runs.
+    applyThemeCssVars(
+      getTheme(resolveThemePreference(stored, media.matches)),
+      document.documentElement,
+    );
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPreference(stored);
+    setPrefersLight(media.matches);
+    // In auto mode the theme follows the system scheme live.
     const onChange = (e: MediaQueryListEvent) => setPrefersLight(e.matches);
     media.addEventListener("change", onChange);
     return () => media.removeEventListener("change", onChange);
   }, []);
 
   useEffect(() => {
+    // Skip the pre-sync commit: it renders the server default, which must not
+    // clobber the stored preference or repaint over the no-flash script.
+    if (!hydrated.current) {
+      hydrated.current = true;
+      return;
+    }
     applyThemeCssVars(theme, document.documentElement);
     window.localStorage.setItem(THEME_STORAGE_KEY, preference);
   }, [theme, preference]);

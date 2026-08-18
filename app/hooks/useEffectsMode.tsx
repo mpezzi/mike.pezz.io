@@ -10,6 +10,7 @@ import {
 } from "react";
 import {
   createSettingsStore,
+  parseSettings,
   resolveParams,
   type CrtSettings,
   type CrtSettingsStore,
@@ -66,9 +67,15 @@ export function EffectsProvider({ children }: { children: ReactNode }) {
       ),
     [],
   );
-  const [settings, setSettings] = useState<CrtSettings>(() => store.get());
+  // Deterministic defaults for hydration — stored overrides (browser state)
+  // are synced from the store after mount, like `mode` below.
+  const [settings, setSettings] = useState<CrtSettings>(() => parseSettings(null));
 
-  useEffect(() => store.subscribe(setSettings), [store]);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSettings(store.get());
+    return store.subscribe(setSettings);
+  }, [store]);
 
   useEffect(() => {
     // Prerendered HTML hydrates in "off" mode; the real capability-resolved
